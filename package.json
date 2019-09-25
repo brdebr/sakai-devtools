@@ -1,0 +1,11 @@
+{
+  "name": "sakai-devtools",
+  "version": "1.0.0",
+  "description": "sakai-devtools",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bryan de Oliveira Brettas",
+  "license": "ISC"
+}
