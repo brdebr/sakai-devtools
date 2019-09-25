@@ -1,7 +1,7 @@
 import fs, { PathLike } from "fs";
 
-function getTools(directory:PathLike) : String[] {
-    let directories : String[] = [];
+function getToolNames(directory:PathLike) : string[] {
+    let directories : string[] = [];
     fs.readdirSync(directory, { withFileTypes: true })
         .filter(element => element.isDirectory() && !element.name.startsWith('.'))
         .forEach(file => {
@@ -10,4 +10,4 @@ function getTools(directory:PathLike) : String[] {
     return directories;
 }
 
-export default getTools;
+export default getToolNames;
