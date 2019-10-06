@@ -1,5 +1,6 @@
 import inquirer from 'inquirer';
 import ToolManager from './functions/ToolManager';
+const consola = require('consola')
 
 async function app() {
     let sakaiPath: string = 'L:\\DESARROLLO\\Sakai\\source\\master'
@@ -12,12 +13,29 @@ async function app() {
             choices: ToolManager.getToolNames(sakaiPath)
         }
     )
+    let confirmation = await inquirer.prompt(
+        {
+            type: "confirm",
+            name: 'value',
+            message: `Compile this tools to '${process.env.CATALINA_BASE}' ? \n-${promptData.selectedTools.join('\n-')}\n`,
+            default: true
+        }
+    )
+    if(!confirmation.value){
+        return
+    }
+    let errors: string[] = [];
     for (const toolName of promptData.selectedTools) {
         let success = await ToolManager.deployTool(toolName,sakaiPath)
         if(!success){
-            console.log('Skipping tool : '+toolName);
-            break
+            errors.push(toolName)
+            consola.warn('-Skipping tool : '+toolName);
         }
+    }
+    let successTotal = promptData.selectedTools.length - errors.length
+    consola.info(`-- Deployed ${successTotal}/${promptData.selectedTools.length} tools --`)
+    if(errors.length > 0){
+        consola.warn('Failed to deploy :\n'+errors.map(el => '- '+el).join('\n'))
     }
 }
 

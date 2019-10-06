@@ -3,6 +3,7 @@ import path from 'path';
 import SakaiTool from '../models/SakaiTool';
 const child_process = require('child_process');
 var convert = require('xml-js');
+const consola = require('consola')
 
 class ToolManager {
     static getToolNames(sakaiPath: PathLike) : string[] {
@@ -58,18 +59,21 @@ class ToolManager {
     }
     static async deployTool(toolName:string, sakaiPath:string): Promise<boolean>{
         const execCommand = `mvn clean install sakai:deploy -Dmaven.tomcat.home=%CATALINA_BASE% -Djava.net.preferIPv4Stack=true -Dmaven.test.skip=true -Dsakai.cleanup=true`
-        console.log('--Deploying: '+toolName+' --');
+        consola.info(`-- Deploying tool: > ${toolName} < --`)
         // const exec = 
         return new Promise((resolve,reject) => {
             var mvnProcess = child_process.spawn("cmd.exe", ["/c", execCommand], {cwd: path.join(sakaiPath,toolName), stdio: "inherit"});
             mvnProcess.on('close', function(code:any) {
-                console.log('--Finished the deployment--');
-                console.log('Code: '+code);
-                resolve(code === 0)
+                var succeded = code === 0;
+                if(succeded){
+                    consola.success(`--Finished deployment of tool: > ${toolName} < --`)
+                }else{
+                    consola.error(`--FAILED deployment of tool: > ${toolName} < --`);
+                }
+                resolve(succeded)
             })
             mvnProcess.on('error', function(code:any) {
-                console.log('FAILED deployment--');
-                console.log('Code: '+code);
+                consola.error(`--ERROR on tool: > ${toolName} < --`);
                 reject()
             })
         })
