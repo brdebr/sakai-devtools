@@ -1,26 +1,11 @@
+#!/usr/bin/env node
 import inquirer from 'inquirer';
 import path from 'path';
 import ToolManager from './functions/ToolManager';
 const consola = require('consola')
 
 async function app() {
-    let argmts = process.argv.slice(2)
-    let sakaiPath: string
-    if(argmts.length === 0){
-        let sakaiPrompt = await inquirer.prompt(
-            {
-                type: "input",
-                name: 'value',
-                message: 'Introduce sakai souce code path',
-                validate: input => {
-                    return !!input || 'Please introduce the path'
-                }
-            }
-        )
-        sakaiPath = path.normalize(sakaiPrompt.value)
-    }else{
-        sakaiPath = path.normalize(argmts[0])
-    }
+    let sakaiPath = process.cwd()
 
     let promptData = await inquirer.prompt(
         {
