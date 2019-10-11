@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "sakai-devtools",
   "scripts": {
-    "watch": "tsc",
+    "build": "tsc",
+    "watch": "tsc --watch",
     "dev": "node ./dist/src/main.js"
   },
   "author": "Bryan de Oliveira Brettas",
