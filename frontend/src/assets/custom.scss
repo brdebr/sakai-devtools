@@ -1,0 +1,9 @@
+
+
+.v-card.v-card--outlined{
+    border-width: 2px !important;
+    .v-card__title + hr{
+        border-width: 2px 0 0 0;
+    }
+}
+

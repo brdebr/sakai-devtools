@@ -27,5 +27,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import './assets/transitions.scss'
+@import './assets/transitions.scss';
+@import './assets/custom.scss';
 </style>
