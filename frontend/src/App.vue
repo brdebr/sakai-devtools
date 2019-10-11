@@ -3,7 +3,7 @@
     <TheDrawer/>
     <TheToolbar/>
     <v-content>
-      <v-container class="pb-5 pt-5" fluid>
+      <v-container class="pb-5 pt-5 bg-gradient" fill-height fluid>
         <router-view />
       </v-container>
     </v-content>

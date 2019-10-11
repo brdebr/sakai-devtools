@@ -33,8 +33,19 @@ export default class AppStoreModule extends VuexModule {
   sakaiInstances: SakaiInstance[] = [
     {
       id: "1",
-      name: "The chosen one",
-      path: "C:\\victory"
+      name: "Master",
+      path: "L:\\DESARROLLO\\Sakai\\source\\master",
+      tools: [
+        "access",
+        "alias",
+        "announcement",
+        "archive",
+        "assignment",
+        "authz",
+        "basiclti",
+        "calendar",
+        "chat",
+      ]
     },
     {
       id: "2",

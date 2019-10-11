@@ -12,7 +12,7 @@
       <v-list :shaped="!$store.state.app.layout.drawerMini">
         <v-list-item class="blue drawer-header" dark>
           <span v-if="!$store.state.app.layout.drawerMini" class="font-weight-bold d-inline-block text-truncate text-center">
-            Sakai instances
+            Instances
           </span>
           <v-icon v-else>
             fas fa-tachometer-alt
