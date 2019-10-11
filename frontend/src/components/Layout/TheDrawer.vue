@@ -8,10 +8,20 @@
     app
     @input="(val) => $store.commit('app/setDrawer', val)"
   >
-    <v-layout column justify-space-between fill-height>
+    <v-layout
+      column
+      justify-space-between
+      fill-height
+    >
       <v-list :shaped="!$store.state.app.layout.drawerMini">
-        <v-list-item class="blue drawer-header" dark>
-          <span v-if="!$store.state.app.layout.drawerMini" class="font-weight-bold d-inline-block text-truncate text-center">
+        <v-list-item
+          class="blue drawer-header"
+          dark
+        >
+          <span
+            v-if="!$store.state.app.layout.drawerMini"
+            class="font-weight-bold d-inline-block text-truncate text-center"
+          >
             Instances
           </span>
           <v-icon v-else>
@@ -39,7 +49,10 @@
         </v-list-item>
       </v-list>
       <v-spacer />
-      <transition name="flip-x" mode="out-in">
+      <transition
+        name="flip-x"
+        mode="out-in"
+      >
         <div
           :key="$store.state.app.layout.drawerMini"
           :class="
@@ -69,13 +82,13 @@
   </v-navigation-drawer>
 </template>
 <style lang="scss" scoped>
-div.v-list-item.drawer-header{
+div.v-list-item.drawer-header {
   border-bottom-right-radius: 0 !important;
   border-top-right-radius: 0 !important;
   margin-right: -8px;
   margin-bottom: 8px;
 }
 .drawer-border {
-  border-right: 2px solid #2979FF;
+  border-right: 2px solid #2979ff;
 }
 </style>

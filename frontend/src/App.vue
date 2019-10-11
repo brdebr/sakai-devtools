@@ -1,9 +1,13 @@
 <template>
   <v-app>
-    <TheDrawer/>
-    <TheToolbar/>
+    <TheDrawer />
+    <TheToolbar />
     <v-content>
-      <v-container class="pb-5 pt-5 bg-gradient" fill-height fluid>
+      <v-container
+        class="pb-5 pt-5 bg-gradient"
+        fill-height
+        fluid
+      >
         <router-view />
       </v-container>
     </v-content>
@@ -11,8 +15,8 @@
 </template>
 
 <script>
-import TheDrawer from './components/Layout/TheDrawer.vue'
-import TheToolbar from './components/Layout/TheToolbar.vue'
+import TheDrawer from "./components/Layout/TheDrawer.vue";
+import TheToolbar from "./components/Layout/TheToolbar.vue";
 
 export default {
   name: "App",
@@ -22,11 +26,11 @@ export default {
   components: {
     TheToolbar,
     TheDrawer
-  },
+  }
 };
 </script>
 
 <style lang="scss">
-@import './assets/transitions.scss';
-@import './assets/custom.scss';
+@import "./assets/transitions.scss";
+@import "./assets/custom.scss";
 </style>
