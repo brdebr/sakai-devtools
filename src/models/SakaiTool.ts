@@ -1,4 +1,4 @@
-export default interface SakaiTool{
+export interface SakaiTool{
     id: string,
     title: string,
     description?: string,

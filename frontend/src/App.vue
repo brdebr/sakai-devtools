@@ -12,7 +12,7 @@
        fab
        x-small
        class="blue--text text--accent-3 ml-1 mr-4"
-       @click="$store.commit('toggleDrawer')"
+       @click="$store.commit('app/toggleDrawer')"
       >
       <v-icon small>
         fas fa-bars
