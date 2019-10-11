@@ -1,0 +1,12 @@
+// Flip X
+.flip-x-enter {
+    transform: rotateY(90deg);
+}
+.flip-x-enter-active,
+.flip-x-leave-active {
+    transition: all 0.15s;
+    transform-style: preserve-3d;
+}
+.flip-x-leave-to {
+    transform: rotateY(90deg);
+}
