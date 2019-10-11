@@ -11,7 +11,7 @@
     <v-layout column justify-space-between fill-height>
       <v-list :shaped="!$store.state.app.layout.drawerMini">
         <v-list-item class="blue drawer-header" dark>
-          <span v-if="!$store.state.app.layout.drawerMini" class="font-weight-bold d-inline-block text-truncate">
+          <span v-if="!$store.state.app.layout.drawerMini" class="font-weight-bold d-inline-block text-truncate text-center">
             Sakai instances
           </span>
           <v-icon v-else>
@@ -26,7 +26,7 @@
           router
           active-class="blue--text"
           exact
-          @click="false"
+          @click="$store.commit('app/setSelectedInstanceIndex', index)"
         >
           <v-list-item-icon class="ml-3 mr-auto">
             <v-icon>{{ instance.icon || 'fas fa-hdd' }}</v-icon>

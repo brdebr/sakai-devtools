@@ -55,6 +55,11 @@ export default class AppStoreModule extends VuexModule {
   }
 
   @Mutation
+  setSelectedInstanceIndex(index: number){
+    this.selectedInstanceIndex = index
+  }
+
+  @Mutation
   setsakaiInstances(val: SakaiInstance[]) {
     this.sakaiInstances = val;
   }
