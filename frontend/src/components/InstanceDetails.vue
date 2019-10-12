@@ -68,14 +68,18 @@
 </template>
 
 <script lang="ts">
-const { dialog } = require('electron').remote
 import Vue from "vue";
+import { mapGetters } from "vuex";
+
 import Component from "vue-class-component";
-import ToolManager from '../../../src/functions/ToolManager';
 import { getModule } from 'vuex-module-decorators';
 import AppStoreModule from '../app.store';
-import { mapGetters } from "vuex";
+
+const { dialog } = require('electron').remote
+
+import ToolManager from '../../../src/functions/ToolManager';
 import { SakaiInstance } from "../../../src/models/SakaiInstance";
+
 import ToolSelector from './ToolsSelector.vue';
 import MavenOptions from './MavenOptions.vue';
 
