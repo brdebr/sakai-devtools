@@ -29,7 +29,7 @@
                   cols="12"
                   class="mb-3 ml-1"
                 >
-                  <span class="body-1">
+                  <span class="body-1" @click="test">
                     [ {{ selectedTools.length }} ] Tools to deploy:
                   </span>
                 </v-col>
@@ -60,9 +60,9 @@
                   </v-chip>
                 </v-col>
               </v-row>
-              <v-row no-gutters>
-                <div id="terminal-output">
-                </div>
+              <v-row no-gutters >
+                <v-col cols="12" ref="terminal" id="term">
+                </v-col>
               </v-row>
             </v-card>
           </v-col>
@@ -78,6 +78,13 @@ import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
 import { SakaiTool } from "../../../src/models/SakaiTool";
 
+import { Terminal } from 'xterm';
+import { FitAddon } from 'xterm-addon-fit';
+
+const child_process = require('child_process');
+
+var term: Terminal
+
 interface SakaiToolDeployment {
   name: string;
   state: "initial" | "deploying" | "success" | "error" | "warning";
@@ -90,6 +97,8 @@ export default class DeployDialog extends Vue {
   selectedTools!: readonly string[];
 
   states: SakaiToolDeployment[] = this.mapStrings([...this.selectedTools]);
+
+  terminalLog: string = ''
 
   @Watch("selectedTools")
   remap(val: string[], old: string[]) {
@@ -106,8 +115,41 @@ export default class DeployDialog extends Vue {
       }
     );
   }
+
+  test(){
+    term = new Terminal({
+        cursorBlink: true
+    });
+    const fitAddon = new FitAddon();
+    term.loadAddon(fitAddon);
+    // @ts-ignore
+    term.open(this.$refs.terminal);
+    fitAddon.fit();
+
+    term.writeln('EXECUTING MAVEN COMMAND')
+
+    let mvnProcess = child_process.spawn("cmd.exe", ["/c", "mvn --version"], {cwd: this.$store.getters['app/selectedInstance'].path});
+
+    mvnProcess.stdout.on('data', (v: Buffer) => {
+      this.terminalLog += v.toString()
+      term.write(v.toString())
+    })
+
+    mvnProcess.on('close', (code: number) => {
+        console.log('WOLOLO');
+        console.log(this.terminalLog.split('\n'));
+        console.log({code});
+    })
+
+    mvnProcess.on('error', (code: number) => {
+        console.log(':C');
+        console.log({code});
+    })
+  }
+
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '../.././node_modules/xterm/css/xterm.css';
 </style>
