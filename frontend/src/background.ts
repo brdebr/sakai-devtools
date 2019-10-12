@@ -17,12 +17,12 @@ protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: tru
 function createWindow() {
     // Create the browser window.
     win = new BrowserWindow({
-        width: 1400, height: 820, webPreferences: {
+        width: 1450, height: 820, webPreferences: {
             nodeIntegration: true
         }
     });
 
-    win.removeMenu();
+    // win.removeMenu();
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {
         // Load the url of the dev server if in development mode

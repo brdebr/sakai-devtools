@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { SakaiInstance } from '../../src/models/SakaiInstance';
+import ToolManager from '../../src/functions/ToolManager';
+const child_process = require('child_process');
 import {
     VuexModule,
     Module,
@@ -80,6 +82,31 @@ export default class AppStoreModule extends VuexModule {
     this.sakaiInstances.push(val);
   }
 
+  @Mutation
+  findTools(id: string){
+    let index = this.sakaiInstances.findIndex(el => el.id === id)
+    let instance = this.sakaiInstances[index]
+    instance.tools = ToolManager.getToolNames(instance.path).filter(el => el !== 'library')
+  }
+
+  @Mutation
+  setPath(payload: {id: string, path: string}){
+    let index = this.sakaiInstances.findIndex(el => el.id === payload.id)
+    let instance = this.sakaiInstances[index]
+    instance.path = payload.path
+  }
+
+  // @Mutation
+  // setShit(data: string){
+  //   this.shit += data;
+  // }
+
+  // @Action
+  // async fetchMaven(){
+  //   console.log('Maven');
+  //   let mvnProcess = child_process.spawn("cmd.exe", ["/c", "mvn --version"]);
+  //   // mvnProcess.stdout.on('data', this.setShit);
+  // }
 }
 
 // Interfaces

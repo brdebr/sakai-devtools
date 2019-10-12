@@ -9,8 +9,8 @@
         class="blue darken-2"
       >
         <v-card-title class="elevation-2 blue darken-3 pt-3">
-          <span class="ml-1">
-            {{$store.getters['app/selectedInstance'].name}}
+          <span class="ml-1" @click="tettt">
+            {{selectedInstance.name}}
           </span>
           <v-spacer />
           <span class="body-1">
@@ -28,7 +28,9 @@
                 hide-details
                 label="Path"
                 placeholder="C:\sakai-source\"
-                :value="$store.getters['app/selectedInstance'].path"
+                :value="selectedInstance.path"
+                append-icon="fas fa-folder mr-2"
+                @click:append="selectPath"
               />
             </v-col>
           </v-row>
@@ -41,6 +43,8 @@
                 flat
                 outlined
                 style="background-color: transparent"
+                class="d-flex flex-column"
+                max-height="400px"
               >
                 <v-card-title class="py-2 subtitle-1">
                   Tools to compile
@@ -66,11 +70,11 @@
                   </v-col>
                 </v-card-text>
                 <v-divider />
-                <v-card-text>
+                <v-card-text style="overflow-y: scroll">
                   <v-col
                     cols="12"
                     class="my-0 py-1"
-                    v-for="tool in $store.getters['app/selectedInstance'].tools"
+                    v-for="tool in selectedInstance.tools"
                     :key="tool"
                   >
                     <v-checkbox
@@ -167,13 +171,46 @@
 </template>
 
 <script lang="ts">
+const { dialog } = require('electron').remote
 import Vue from "vue";
 import Component from "vue-class-component";
+import ToolManager from '../../../src/functions/ToolManager';
+import { getModule } from 'vuex-module-decorators';
+import AppStoreModule from '../app.store';
+import { mapGetters } from "vuex";
+import { SakaiInstance } from "../../../src/models/SakaiInstance";
 
-@Component({})
+@Component({
+  computed: {
+    ...mapGetters('app', {
+      selectedInstance: 'selectedInstance'
+    })
+  }})
 export default class InstanceDetails extends Vue {
+  selectedInstance! : SakaiInstance
+
   selectedTools = [];
-  selectedGoals = [];
+  selectedGoals = ["clean", "install", "deploy"];
+
+  tettt(){
+    getModule(AppStoreModule, this.$store)
+    this.$store.dispatch('app/fetchMaven')
+  }
+
+  selectPath(){
+    let dialogPath = dialog.showOpenDialogSync({
+      properties: ['openDirectory']
+    })
+    if(dialogPath && dialogPath.length > 0){
+      this.$store.commit('app/setPath', {
+          id: this.selectedInstance.id,
+          path: dialogPath[0]
+      })
+      this.$store.commit('app/findTools', this.selectedInstance.id)
+    }
+
+  }
+
   mavenGoals = ["clean", "install", "deploy"];
 }
 </script>
