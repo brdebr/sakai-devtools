@@ -73,7 +73,7 @@ export default class MavenOptions extends Vue {
   @Prop()
   readonly value!: MavenGoal[];
 
-  catalina_base = "L:\\DESARROLLO\\Sakai\\tomcat\\master";
+  catalina_base = window.process.env.CATALINA_BASE;
 
   selectedGoals: MavenGoal[] = this.value;
 
