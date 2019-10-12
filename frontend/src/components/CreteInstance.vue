@@ -47,7 +47,8 @@
                 v => !!v || 'This is a required field'
               ]"
                 append-icon="fas fa-folder mr-2"
-                @click:append="selectPath"
+                @click:append.stop="selectPath"
+                @mouseup.stop="selectPath"
               />
             </v-col>
           </v-row>

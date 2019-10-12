@@ -16,7 +16,7 @@ export default class AppStoreModule extends VuexModule {
 
   layout: LayoutState = {
     drawer: true,
-    drawerMini: true
+    drawerMini: false
   }
   @Mutation
   toggleDrawer() {

@@ -30,7 +30,8 @@
                 placeholder="C:\sakai-source\"
                 :value="selectedInstance.path"
                 append-icon="fas fa-folder mr-2"
-                @click:append="selectPath"
+                @click:append.stop="selectPath"
+                @mouseup.stop="selectPath"
               />
             </v-col>
           </v-row>

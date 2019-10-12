@@ -34,7 +34,7 @@
           :title="instance.name"
           :input-value="index === $store.state.app.selectedInstanceIndex"
           router
-          active-class="blue--text"
+          active-class="blue--text text--darken-3"
           exact
           @click="$store.commit('app/setSelectedInstanceIndex', index)"
         >
@@ -66,6 +66,7 @@
             :small="$store.state.app.layout.drawerMini"
             :block="!$store.state.app.layout.drawerMini"
             outlined
+            style="color: rgba(0, 0, 0, 0.54);"
             @click.stop="$store.commit('app/toggleDrawerMini')"
           >
             <v-icon small>
