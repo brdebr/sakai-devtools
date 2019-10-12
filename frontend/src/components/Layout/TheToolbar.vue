@@ -21,5 +21,20 @@
       Sakai DevTools
     </v-toolbar-title>
     <v-spacer />
+    <CreateInstance/>
   </v-app-bar>
 </template>
+<script lang="ts">
+import Vue from "vue";
+import Component from "vue-class-component";
+import CreateInstance from '../CreteInstance.vue';
+
+@Component({
+  components: {
+    CreateInstance
+  }
+})
+export default class  extends Vue {
+  
+}
+</script>
