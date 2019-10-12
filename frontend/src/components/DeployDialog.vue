@@ -1,5 +1,5 @@
 <template>
-  <v-dialog>
+  <v-dialog max-width="85%" transition="slide-y-transition">
     <template #activator="{ on }">
       <v-btn
         depressed

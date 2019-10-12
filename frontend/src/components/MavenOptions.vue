@@ -19,6 +19,9 @@
         <span class="font-italic">
           <code>{{ catalina_base }}</code>
         </span>
+        <v-btn x-small depressed class="ml-5" color="blue-grey darken-3">
+          Change
+        </v-btn>
       </v-col>
     </v-card-text>
     <v-divider />

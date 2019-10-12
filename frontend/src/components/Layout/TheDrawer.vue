@@ -3,6 +3,7 @@
     :mini-variant="$store.state.app.layout.drawerMini"
     :value="$store.state.app.layout.drawer"
     clipped
+    :mobile-break-point="950"
     class="drawer-border"
     fixed
     app

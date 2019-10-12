@@ -1,7 +1,7 @@
 <template>
   <v-layout justify-center>
     <v-flex
-      xs11
+      xs12
       class="mb-auto"
     >
       <v-card
