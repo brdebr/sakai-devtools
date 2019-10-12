@@ -1,5 +1,7 @@
 <template>
-  <InstanceDetails />
+  <transition name="page" mode="out-in" >
+    <InstanceDetails :key="$store.getters['app/selectedInstance'].id" />
+  </transition>
 </template>
 
 <script lang="ts">

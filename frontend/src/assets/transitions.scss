@@ -1,12 +1,28 @@
+// Page transition
+.page-enter-active {
+  transition: all 0.4s ease-out;
+}
+.page-leave-active {
+  transition: all 0.4s ease-in;
+}
+.page-enter {
+  opacity: 0;
+//   transform: translateX(-30%);
+}
+.page-leave-to {
+  opacity: 0;
+//   transform: translateX(30%);
+}
+
 // Flip X
 .flip-x-enter {
-    transform: rotateY(90deg);
+  transform: rotateY(90deg);
 }
 .flip-x-enter-active,
 .flip-x-leave-active {
-    transition: all 0.15s;
-    transform-style: preserve-3d;
+  transition: all 0.15s;
+  transform-style: preserve-3d;
 }
 .flip-x-leave-to {
-    transform: rotateY(90deg);
+  transform: rotateY(90deg);
 }
