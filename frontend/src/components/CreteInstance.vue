@@ -103,8 +103,19 @@ export default class CreateInstance extends Vue {
           this.newInstance.id = Date.now().toString();
           this.$store.commit("app/addsakaiInstance", { ...this.newInstance });
           this.$store.commit('app/findTools', this.newInstance.id)
+          this.$store.commit('app/setSelectedInstanceById', this.newInstance.id)
           this.dialog = false;
+          this.resetData()
       }
+  }
+  resetData(){
+    // @ts-ignore
+    this.$refs.form.reset()
+    this.newInstance = {
+      id: "",
+      name: "",
+      path: ""
+    };
   }
 }
 </script>

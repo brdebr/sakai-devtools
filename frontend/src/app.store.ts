@@ -73,6 +73,11 @@ export default class AppStoreModule extends VuexModule {
   }
 
   @Mutation
+  setSelectedInstanceById(id: string){
+    this.selectedInstanceIndex = this.sakaiInstances.findIndex(el => el.id === id)
+  }
+
+  @Mutation
   setsakaiInstances(val: SakaiInstance[]) {
     this.sakaiInstances = val;
   }
