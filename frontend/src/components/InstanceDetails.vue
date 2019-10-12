@@ -53,15 +53,7 @@
         <v-divider />
         <v-card-actions class="overflow-hidden blue darken-3">
           <v-spacer />
-          <v-btn
-            depressed
-            dark
-            color="success"
-          >
-            <span>
-              Deploy
-            </span>
-          </v-btn>
+          <DeployDialog :selected-tools="selectedTools"/>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -83,6 +75,7 @@ import { SakaiInstance } from "../../../src/models/SakaiInstance";
 
 import ToolSelector from './ToolsSelector.vue';
 import MavenOptions from './MavenOptions.vue';
+import DeployDialog from './DeployDialog.vue';
 
 @Component({
   computed: {
@@ -92,7 +85,8 @@ import MavenOptions from './MavenOptions.vue';
   },
   components: {
     ToolSelector,
-    MavenOptions
+    MavenOptions,
+    DeployDialog
   }
 })
 export default class InstanceDetails extends Vue {
