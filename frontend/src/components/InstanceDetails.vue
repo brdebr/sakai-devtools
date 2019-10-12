@@ -77,6 +77,8 @@ import ToolSelector from './ToolsSelector.vue';
 import MavenOptions from './MavenOptions.vue';
 import DeployDialog from './DeployDialog.vue';
 
+import { MavenGoal } from './MavenOptions.vue';
+
 @Component({
   computed: {
     ...mapGetters('app', {
@@ -93,7 +95,7 @@ export default class InstanceDetails extends Vue {
   selectedInstance! : SakaiInstance
 
   selectedTools = [];
-  selectedGoals = ["clean", "install", "deploy"];
+  selectedGoals: MavenGoal[] = ["clean", "install", "sakai:deploy"];
 
   tettt(){
     getModule(AppStoreModule, this.$store)

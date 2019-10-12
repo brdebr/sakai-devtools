@@ -71,7 +71,7 @@ import { Watch, Prop } from "vue-property-decorator";
 
 const child_process = require('child_process');
 
-type MavenGoal = "clean" | "install" | "deploy";
+export type MavenGoal = "clean" | "install" | "sakai:deploy";
 
 @Component({
   model: {
@@ -113,7 +113,7 @@ export default class MavenOptions extends Vue {
     })
   }
 
-  mavenGoals: MavenGoal[] = ["clean", "install", "deploy"];
+  mavenGoals: MavenGoal[] = ["clean", "install", "sakai:deploy"];
 }
 </script>
 
