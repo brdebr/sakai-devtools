@@ -9,9 +9,17 @@
     </v-card-title>
     <v-divider />
     <v-card-text class="py-2">
+      <v-col cols="12" class="pt-1 px-1">
+        <div>
+          <span class="d-block mb-1" v-for="line in terminalLog.split('\n')" :key="line">
+            {{line}}
+          </span>
+        </div>
+      </v-col>
+      <v-divider class="mb-3"/>
       <v-col
         cols="12"
-        class="my-0 py-1 pa-0"
+        class="my-0 py-1 px-1"
       >
         <span class="mr-2">
           CATALINA_BASE:
@@ -61,6 +69,8 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Watch, Prop } from "vue-property-decorator";
 
+const child_process = require('child_process');
+
 type MavenGoal = "clean" | "install" | "deploy";
 
 @Component({
@@ -75,11 +85,32 @@ export default class MavenOptions extends Vue {
 
   catalina_base = window.process.env.CATALINA_BASE;
 
+  terminalLog: string = ''
+  //  (?<=Apache Maven\s)(\w\.\w\.\w)
+
   selectedGoals: MavenGoal[] = this.value;
 
   @Watch("selectedGoals")
   onSelectedToolsChange(val: string[], old: string[]) {
     this.$emit("input", val);
+  }
+
+  mounted(){
+
+    let mvnProcess = child_process.spawn("cmd.exe", ["/c", "mvn --version"]);
+
+    mvnProcess.stdout.on('data', (v: Buffer) => {
+      this.terminalLog += v.toString()
+    })
+
+    mvnProcess.on('close', (code: number) => {
+        console.log('WOLOLO');
+    })
+
+    mvnProcess.on('error', (code: number) => {
+        console.log(':C');
+        console.log({code});
+    })
   }
 
   mavenGoals: MavenGoal[] = ["clean", "install", "deploy"];
