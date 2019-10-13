@@ -19,6 +19,9 @@
           Deploy confirmation
         </span>
         <v-spacer/>
+        <v-btn depressed color="grey" class="mr-3" @click="resetDeployState">
+          RESET
+        </v-btn>
         <v-btn @click="dialog = false" depressed color="grey" class="mr-2" v-if="percentage === 100">
           CLOSE
         </v-btn>
@@ -145,13 +148,13 @@ export default class DeployDialog extends Vue {
       this.states[i].state = "deploying"
       let stateVal = await this.deployTool(i)
       this.states[i].state = stateVal
-      current_window.setProgressBar(this.percentage / 100)
+      current_window.setProgressBar(this.percentage / 100, { mode: 'paused'})
     }
     this.toolsPanel = -1
     if(this.states.filter(el => el.state === 'error' || el.state === 'warning').length > 0){
       current_window.setProgressBar(1, { mode: 'error'})
     }else{
-      current_window.setProgressBar(1, { mode: 'paused'})
+      current_window.setProgressBar(1)
     }
   }
 
@@ -188,6 +191,15 @@ export default class DeployDialog extends Vue {
 
     })
 
+  }
+
+  resetDeployState(){
+    this.states = this.states.map(el => {
+      el.state = "initial"
+      el.log = ''
+      return el
+    })
+    current_window.setProgressBar(-1)
   }
 
 }
