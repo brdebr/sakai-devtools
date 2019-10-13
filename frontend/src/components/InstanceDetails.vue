@@ -53,7 +53,7 @@
         <v-divider />
         <v-card-actions class="overflow-hidden blue darken-3">
           <v-spacer />
-          <DeployDialog :disabled="selectedTools.length === 0" :selected-tools="selectedTools"/>
+          <DeployDialog :disabled="selectedTools.length === 0" :selected-goals="selectedGoals" :selected-tools="selectedTools"/>
         </v-card-actions>
       </v-card>
     </v-flex>

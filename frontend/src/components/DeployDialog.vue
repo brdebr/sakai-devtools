@@ -57,9 +57,7 @@
                       </v-expansion-panel-header>
                         <v-expansion-panel-content class="grey darken-3 no-x-paddings">
                           <v-row no-gutters class="justify-center">
-                            <v-col class="py-2 px-7 mx-auto black white--text terminal-like">
-                                {{ tool.log }}
-                            </v-col>
+                            <v-col class="py-2 px-7 mx-auto black white--text terminal-like" v-text="tool.log+'\n'"/>
                           </v-row>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
@@ -79,6 +77,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
 import { SakaiTool } from "../../../src/models/SakaiTool";
+import { MavenGoal } from './MavenOptions.vue';
 
 const child_process = require('child_process');
 
@@ -97,7 +96,10 @@ export default class DeployDialog extends Vue {
 
   @Prop({default: false})
   disabled!: boolean
-  
+
+  @Prop()
+  selectedGoals!: MavenGoal[]
+
   toolsPanel: number = -1
   dialog: boolean = false
 
@@ -107,7 +109,7 @@ export default class DeployDialog extends Vue {
   remap(val: string[], old: string[]) {
     this.states = this.mapStrings(val);
   }
-  
+
   get percentage(){
     return ((this.states.filter(el => el.state !== 'initial' && el.state !== 'deploying').length * 100) / this.states.length)
   }
@@ -155,8 +157,15 @@ export default class DeployDialog extends Vue {
 
   deployTool(index: number): Promise<"success"|"error">{
     return new Promise((resolve,reject) => {
-        let cmdCommand = 'mvn clean install sakai:deploy -Dmaven.tomcat.home=%CATALINA_BASE% -Djava.net.preferIPv4Stack=true -Dmaven.test.skip=true -Dsakai.cleanup=true'
-        let cwd = this.$store.getters['app/selectedInstance'].path +'\\'+this.states[index].name
+        let cmdMavenOptions = '-Dmaven.tomcat.home=%CATALINA_BASE% -Djava.net.preferIPv4Stack=true -Dmaven.test.skip=true -Dsakai.cleanup=true'
+        let cmdCommand = `mvn ${this.selectedGoals.join(' ')} ${cmdMavenOptions}`
+        let cwd = this.$store.getters['app/selectedInstance'].path + '\\' + this.states[index].name
+
+        this.states[index].log += '---------------------------' + '\n'
+        this.states[index].log += '· EXECUTING MAVEN COMMAND  ' + '\n'
+        this.states[index].log += '---------------------------' + '\n'
+        this.states[index].log += '$ ' + cmdCommand + '\n'
+        this.states[index].log += '---------------------------' + '\n'
 
         let mvnProcess = child_process.spawn("cmd.exe", ["/c", cmdCommand], { cwd });
 
