@@ -11,8 +11,8 @@
     <v-card-text class="py-2">
       <v-col cols="12" class="pt-1 px-1">
         <div>
-          <span class="d-block mb-1" v-for="line in terminalLog.split('\n')" :key="line">
-            {{line}}
+          <span class="d-block mb-1 text-truncate" :title="line" v-for="line in terminalLog.split('\n')" :key="line">
+            {{ line }}
           </span>
         </div>
       </v-col>

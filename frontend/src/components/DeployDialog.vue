@@ -130,7 +130,7 @@ export default class DeployDialog extends Vue {
 
   async loopDeploying(){
     for (let i = 0; i < this.states.length; i++) {
-      this.toolsPanel = i
+      // this.toolsPanel = i
       this.states[i].state = "deploying"
       // await new Promise(resolve => setTimeout(resolve, 500))
       let stateVal = await this.deployTool(i)
