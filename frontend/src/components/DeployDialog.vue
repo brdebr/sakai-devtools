@@ -1,9 +1,10 @@
 <template>
-  <v-dialog v-model="dialog" max-width="90%" transition="slide-y-transition" :persistent="true">
+  <v-dialog v-model="dialog" max-width="90%" transition="slide-y-transition">
     <template #activator="{ on }">
       <v-btn
         depressed
         dark
+        :disabled="disabled"
         v-on="on"
         color="success"
       >
@@ -42,7 +43,7 @@
                     [ {{ selectedTools.length }} ] Tools to deploy:
                   </span>
                 </v-col>
-                <v-progress-linear striped :value="percentage" class="mb-3"/>
+                <v-progress-linear striped :value="percentage" class="mb-3" height="8"/>
                 <v-col cols="12">
                   <v-expansion-panels v-model="toolsPanel" accordion>
                     <v-expansion-panel v-for="tool in states" :key="tool.id">
@@ -54,7 +55,7 @@
                           </v-icon>
                         </template>
                       </v-expansion-panel-header>
-                        <v-expansion-panel-content eager class="grey darken-3 no-x-paddings">
+                        <v-expansion-panel-content class="grey darken-3 no-x-paddings">
                           <v-row no-gutters class="justify-center">
                             <v-col class="py-2 px-7 mx-auto black white--text terminal-like">
                                 {{ tool.log }}
@@ -81,6 +82,8 @@ import { SakaiTool } from "../../../src/models/SakaiTool";
 
 const child_process = require('child_process');
 
+const current_window = require('electron').remote.getCurrentWindow()
+
 interface SakaiToolDeployment {
   name: string;
   state: "initial" | "deploying" | "success" | "error" | "warning";
@@ -91,6 +94,9 @@ interface SakaiToolDeployment {
 export default class DeployDialog extends Vue {
   @Prop()
   selectedTools!: readonly string[];
+
+  @Prop({default: false})
+  disabled!: boolean
   
   toolsPanel: number = -1
   dialog: boolean = false
@@ -128,29 +134,38 @@ export default class DeployDialog extends Vue {
     );
   }
 
+  mounted(){
+    current_window.setProgressBar(-1)
+  }
+
   async loopDeploying(){
     for (let i = 0; i < this.states.length; i++) {
-      // this.toolsPanel = i
       this.states[i].state = "deploying"
-      // await new Promise(resolve => setTimeout(resolve, 500))
       let stateVal = await this.deployTool(i)
       this.states[i].state = stateVal
+      current_window.setProgressBar(this.percentage / 100)
     }
     this.toolsPanel = -1
+    if(this.states.filter(el => el.state === 'error' || el.state === 'warning').length > 0){
+      current_window.setProgressBar(1, { mode: 'error'})
+    }else{
+      current_window.setProgressBar(1, { mode: 'paused'})
+    }
   }
 
   deployTool(index: number): Promise<"success"|"error">{
     return new Promise((resolve,reject) => {
-        let testt = 'mvn clean install sakai:deploy -Dmaven.tomcat.home=%CATALINA_BASE% -Djava.net.preferIPv4Stack=true -Dmaven.test.skip=true -Dsakai.cleanup=true'
-        let mvnProcess = child_process.spawn("cmd.exe", ["/c", testt], { cwd: this.$store.getters['app/selectedInstance'].path +'\\'+this.states[index].name });
+        let cmdCommand = 'mvn clean install sakai:deploy -Dmaven.tomcat.home=%CATALINA_BASE% -Djava.net.preferIPv4Stack=true -Dmaven.test.skip=true -Dsakai.cleanup=true'
+        let cwd = this.$store.getters['app/selectedInstance'].path +'\\'+this.states[index].name
+
+        let mvnProcess = child_process.spawn("cmd.exe", ["/c", cmdCommand], { cwd });
 
         mvnProcess.stdout.on('data', (v: Buffer) => {
           this.states[index].log += v.toString()
         })
 
         mvnProcess.on('close', (code: number) => {
-            var succeded = code === 0;
-            if(succeded){
+            if(code === 0){
               resolve('success')
             }else{
               resolve('error')

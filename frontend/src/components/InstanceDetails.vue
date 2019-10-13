@@ -9,7 +9,7 @@
         class="blue darken-2"
       >
         <v-card-title class="elevation-2 blue darken-3 pt-3">
-          <span class="ml-1" @click="tettt">
+          <span class="ml-1">
             {{selectedInstance.name}}
           </span>
           <v-spacer />
@@ -53,7 +53,7 @@
         <v-divider />
         <v-card-actions class="overflow-hidden blue darken-3">
           <v-spacer />
-          <DeployDialog :selected-tools="selectedTools"/>
+          <DeployDialog :disabled="selectedTools.length === 0" :selected-tools="selectedTools"/>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -96,11 +96,6 @@ export default class InstanceDetails extends Vue {
 
   selectedTools = [];
   selectedGoals: MavenGoal[] = ["clean", "install", "sakai:deploy"];
-
-  tettt(){
-    getModule(AppStoreModule, this.$store)
-    this.$store.dispatch('app/fetchMaven')
-  }
 
   selectPath(){
     let dialogPath = dialog.showOpenDialogSync({
