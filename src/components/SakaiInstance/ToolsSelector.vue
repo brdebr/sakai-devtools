@@ -39,6 +39,7 @@
       >
         <v-checkbox
           hide-details
+          :ripple="false"
           class="mt-0 py-0"
           v-model="selectedTools"
           :value="tool"

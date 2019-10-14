@@ -17,7 +17,7 @@
           <span
             class="d-block mb-1 text-truncate"
             :title="line"
-            v-for="line in terminalLog.split('\n')"
+            v-for="line in cmdLog.split('\n')"
             :key="line"
           >
             {{ line }}
@@ -56,18 +56,19 @@
         </v-col>
         <v-col
           class="flex-grow-0 mx-3"
-          v-for="goal in mavenGoals"
-          :key="goal"
+          v-for="goal in mavenGoalList"
+          :key="goal.name"
         >
           <v-checkbox
             hide-details
             class="mt-0 py-0"
             v-model="selectedGoals"
-            :value="goal"
+            :color="goal.color"
+            :value="goal.name"
           >
             <template #label>
-              <span class="ml-n1">
-                {{ goal }}
+              <span>
+                {{ goal.name }}
               </span>
             </template>
           </v-checkbox>
@@ -93,26 +94,41 @@ export type MavenGoal = "clean" | "install" | "sakai:deploy";
   }
 })
 export default class MavenOptions extends Vue {
+  // MAVEN GOALS -->
   @Prop()
   readonly value!: MavenGoal[];
 
-  catalina_base = window.process.env.CATALINA_BASE;
-
-  terminalLog: string = "";
-  //  (?<=Apache Maven\s)(\w\.\w\.\w)
-
   selectedGoals: MavenGoal[] = this.value;
-
   @Watch("selectedGoals")
   onSelectedToolsChange(val: string[], old: string[]) {
     this.$emit("input", val);
   }
 
-  mounted() {
+  mavenGoalList: { name: MavenGoal; color: string }[] = [
+    {
+      name: "clean",
+      color: "white"
+    },
+    {
+      name: "install",
+      color: "yellow"
+    },
+    {
+      name: "sakai:deploy",
+      color: "green lighten-1"
+    }
+  ];
+  // <-- MAVEN GOALS
+
+  catalina_base = window.process.env.CATALINA_BASE;
+
+  cmdLog: string = "";
+
+  getMavenInfo() {
     let mvnProcess = child_process.spawn("cmd.exe", ["/c", "mvn --version"]);
 
     mvnProcess.stdout.on("data", (v: Buffer) => {
-      this.terminalLog += v.toString();
+      this.cmdLog += v.toString();
     });
 
     mvnProcess.on("close", (code: number) => {
@@ -125,7 +141,9 @@ export default class MavenOptions extends Vue {
     });
   }
 
-  mavenGoals: MavenGoal[] = ["clean", "install", "sakai:deploy"];
+  mounted() {
+    this.getMavenInfo();
+  }
 }
 </script>
 

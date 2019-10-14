@@ -80,6 +80,7 @@ const { dialog } = require("electron").remote;
 import ToolManager from "../../../src/functions/ToolManager";
 import { SakaiInstance } from "../../../src/models/SakaiInstance";
 
+// Components
 import ToolSelector from "./ToolsSelector.vue";
 import MavenOptions from "./MavenOptions.vue";
 import DeployDialog from "./DeployDialog.vue";
