@@ -1,6 +1,6 @@
 export interface SakaiInstance {
-    id: string,
-    name: string,
-    path: string,
-    tools?: string[]
+  id: string;
+  name: string;
+  path: string;
+  tools?: string[];
 }

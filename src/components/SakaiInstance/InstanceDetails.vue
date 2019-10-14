@@ -40,7 +40,10 @@
               cols="6"
               class="pr-2"
             >
-              <ToolSelector :tools="selectedInstance.tools" v-model="selectedTools"/>
+              <ToolSelector
+                :tools="selectedInstance.tools"
+                v-model="selectedTools"
+              />
             </v-col>
             <v-col
               cols="6"
@@ -53,7 +56,11 @@
         <v-divider />
         <v-card-actions class="overflow-hidden blue darken-3">
           <v-spacer />
-          <DeployDialog :disabled="selectedTools.length === 0" :selected-goals="selectedGoals" :selected-tools="selectedTools"/>
+          <DeployDialog
+            :disabled="selectedTools.length === 0"
+            :selected-goals="selectedGoals"
+            :selected-tools="selectedTools"
+          />
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -65,24 +72,24 @@ import Vue from "vue";
 import { mapGetters } from "vuex";
 
 import Component from "vue-class-component";
-import { getModule } from 'vuex-module-decorators';
-import AppStoreModule from '../app.store';
+import { getModule } from "vuex-module-decorators";
+import AppStoreModule from "../../core/app.store";
 
-const { dialog } = require('electron').remote
+const { dialog } = require("electron").remote;
 
-import ToolManager from '../../../src/functions/ToolManager';
+import ToolManager from "../../../src/functions/ToolManager";
 import { SakaiInstance } from "../../../src/models/SakaiInstance";
 
-import ToolSelector from './ToolsSelector.vue';
-import MavenOptions from './MavenOptions.vue';
-import DeployDialog from './DeployDialog.vue';
+import ToolSelector from "./ToolsSelector.vue";
+import MavenOptions from "./MavenOptions.vue";
+import DeployDialog from "./DeployDialog.vue";
 
-import { MavenGoal } from './MavenOptions.vue';
+import { MavenGoal } from "./MavenOptions.vue";
 
 @Component({
   computed: {
-    ...mapGetters('app', {
-      selectedInstance: 'selectedInstance'
+    ...mapGetters("app", {
+      selectedInstance: "selectedInstance"
     })
   },
   components: {
@@ -92,23 +99,22 @@ import { MavenGoal } from './MavenOptions.vue';
   }
 })
 export default class InstanceDetails extends Vue {
-  selectedInstance! : SakaiInstance
+  selectedInstance!: SakaiInstance;
 
   selectedTools = [];
   selectedGoals: MavenGoal[] = ["clean", "install", "sakai:deploy"];
 
-  selectPath(){
+  selectPath() {
     let dialogPath = dialog.showOpenDialogSync({
-      properties: ['openDirectory']
-    })
-    if(dialogPath && dialogPath.length > 0){
-      this.$store.commit('app/setPath', {
-          id: this.selectedInstance.id,
-          path: dialogPath[0]
-      })
-      this.$store.commit('app/findTools', this.selectedInstance.id)
+      properties: ["openDirectory"]
+    });
+    if (dialogPath && dialogPath.length > 0) {
+      this.$store.commit("app/setPath", {
+        id: this.selectedInstance.id,
+        path: dialogPath[0]
+      });
+      this.$store.commit("app/findTools", this.selectedInstance.id);
     }
-
   }
 }
 </script>

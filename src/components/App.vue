@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import TheDrawer from "./components/Layout/TheDrawer.vue";
-import TheToolbar from "./components/Layout/TheToolbar.vue";
+import TheDrawer from "./Layout/TheDrawer.vue";
+import TheToolbar from "./Layout/TheToolbar.vue";
 
 export default {
   name: "App",
@@ -31,6 +31,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./assets/transitions.scss";
-@import "./assets/custom.scss";
+@import "../assets/transitions.scss";
+@import "../assets/custom.scss";
 </style>
