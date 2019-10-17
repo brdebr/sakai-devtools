@@ -1,7 +1,7 @@
 {
-    "name": "frontend",
+    "name": "sakai-devtools-electron",
     "version": "0.0.1",
-    "description": "frontend",
+    "description": "sakai-devtools-electron",
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
