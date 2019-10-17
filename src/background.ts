@@ -1,6 +1,7 @@
 "use strict";
 
 import { app, protocol, BrowserWindow } from "electron";
+import path from 'path';
 import {
   createProtocol,
   installVueDevtools
@@ -27,7 +28,9 @@ function createWindow() {
     maxHeight: 1000,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    // @ts-ignore
+    icon: path.join(__static, 'icon.png')
   });
 
   // win.removeMenu();
