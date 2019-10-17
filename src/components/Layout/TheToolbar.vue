@@ -21,7 +21,7 @@
       Sakai DevTools
     </v-toolbar-title>
     <v-spacer />
-    <CreateInstance />
+    <CreateInstance v-if="$store.getters['app/selectedInstance']" />
   </v-app-bar>
 </template>
 <script lang="ts">

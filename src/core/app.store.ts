@@ -3,6 +3,15 @@ import Vuex from "vuex";
 import { SakaiInstance } from "../models/SakaiInstance";
 import ToolManager from "../functions/ToolManager";
 import { VuexModule, Module, Action, Mutation } from "vuex-module-decorators";
+const { ipcRenderer } = require('electron')
+
+
+function saveInstances(instances: SakaiInstance[]){
+  ipcRenderer.sendSync('setConfig', {
+    key: 'instances',
+    value: instances
+  });
+}
 
 Vue.use(Vuex);
 @Module({ namespaced: true, name: "app" })
@@ -25,35 +34,12 @@ export default class AppStoreModule extends VuexModule {
     this.layout.drawer = val;
   }
 
-  sakaiInstances: SakaiInstance[] = [
-    {
-      id: "0",
-      name: "Master",
-      path: "C:\\Sakai\\sources\\master",
-      tools: [
-        "access",
-        "alias",
-        "announcement",
-        "archive",
-        "assignment",
-        "authz",
-        "basiclti",
-        "calendar",
-        "chat",
-        "citations",
-        "cloud-content",
-        "cmprovider",
-        "common",
-        "config",
-        "content"
-      ]
-    }
-  ];
+  sakaiInstances: SakaiInstance[] = [];
 
   selectedInstanceIndex: number = 0;
 
-  get selectedInstance(): SakaiInstance {
-    return this.sakaiInstances[this.selectedInstanceIndex];
+  get selectedInstance(): SakaiInstance | null {
+    return this.sakaiInstances[this.selectedInstanceIndex] || null;
   }
 
   @Mutation
@@ -69,13 +55,14 @@ export default class AppStoreModule extends VuexModule {
   }
 
   @Mutation
-  setsakaiInstances(val: SakaiInstance[]) {
-    this.sakaiInstances = val;
+  addsakaiInstance(val: SakaiInstance) {
+    this.sakaiInstances.push(val);
+    saveInstances(this.sakaiInstances)
   }
 
   @Mutation
-  addsakaiInstance(val: SakaiInstance) {
-    this.sakaiInstances.push(val);
+  fetchInstances(){
+    this.sakaiInstances = ipcRenderer.sendSync('getConfig','instances');
   }
 
   @Mutation
@@ -85,6 +72,8 @@ export default class AppStoreModule extends VuexModule {
     instance.tools = ToolManager.getToolNames(instance.path).filter(
       el => el !== "library"
     );
+
+    saveInstances(this.sakaiInstances)
   }
 
   @Mutation
@@ -92,6 +81,8 @@ export default class AppStoreModule extends VuexModule {
     let index = this.sakaiInstances.findIndex(el => el.id === payload.id);
     let instance = this.sakaiInstances[index];
     instance.path = payload.path;
+
+    saveInstances(this.sakaiInstances)
   }
 
 }

@@ -1,23 +1,52 @@
 "use strict";
 
-import { app, protocol, BrowserWindow } from "electron";
+import { app, protocol, BrowserWindow, ipcMain } from "electron";
 import path from 'path';
 import {
   createProtocol,
   installVueDevtools
 } from "vue-cli-plugin-electron-builder/lib";
 const isDevelopment = process.env.NODE_ENV !== "production";
+import Store from 'electron-store';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win: BrowserWindow | null;
+
+// @ts-ignore
+let configs: Store;
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } }
 ]);
 
+ipcMain.on('setConfig', (event, payload: {key: string, value: any}) => {
+  // console.log('Setting config ...')
+  // console.log(payload);
+  configs.set(payload.key , payload.value)
+  event.returnValue = 'Set ok'
+});
+
+ipcMain.on('getConfig', (event, key: string) => {
+  // console.log('Getting config ...')
+  switch (key) {
+    case 'instances':
+      event.returnValue = configs.get(key, [])
+      break;
+    default:
+      event.returnValue = configs.get(key)
+      break;
+  }
+});
+
 function createWindow() {
+  
+  configs = new Store({
+    name: 'sak-dev-cfg',
+    cwd: process.env.PORTABLE_EXECUTABLE_DIR || __dirname // === dist_electron 
+  });
+
   // Create the browser window.
   win = new BrowserWindow({
     width: 1450,

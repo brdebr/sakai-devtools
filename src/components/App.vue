@@ -26,7 +26,10 @@ export default {
   components: {
     TheToolbar,
     TheDrawer
-  }
+  },
+  mounted () {
+    this.$store.commit('app/fetchInstances');
+  },
 };
 </script>
 
