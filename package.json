@@ -15,6 +15,11 @@
     "main": "background.js",
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.8.2",
+        "@types/inquirer": "^6.5.0",
+        "@types/node": "^12.7.7",
+        "consola": "^2.10.1",
+        "electron-store": "^5.0.0",
+        "inquirer": "^7.0.0",
         "register-service-worker": "^1.6.2",
         "roboto-fontface": "*",
         "vue": "^2.6.10",
@@ -23,13 +28,9 @@
         "vue-router": "^3.0.3",
         "vuetify": "^2.0.0",
         "vuex": "^3.0.1",
+        "xml-js": "^1.6.11",
         "xterm": "^4.1.0",
-        "xterm-addon-fit": "^0.2.1",
-        "@types/inquirer": "^6.5.0",
-        "@types/node": "^12.7.7",
-        "consola": "^2.10.1",
-        "inquirer": "^7.0.0",
-        "xml-js": "^1.6.11"
+        "xterm-addon-fit": "^0.2.1"
     },
     "devDependencies": {
         "@vue/cli-plugin-pwa": "^3.10.0",
