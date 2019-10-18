@@ -10,6 +10,44 @@
       Tools to compile
     </v-card-title>
     <v-divider />
+    <v-card-text>
+      <v-autocomplete
+        :items="tools"
+        multiple
+        v-model="selectedTools"
+        :search-input.sync="autoinput"
+        clearable
+        filled
+        hide-details
+        label="Tools to compile"
+        height="auto"
+        class="autochips"
+        @change="autoinput = null"
+      >
+        <template #selection="{item, index, select}">
+          <v-chip
+            class=" tool-pill"
+            close
+            light
+            color="grey lighten-2"
+            @click:close="selectedTools.splice(index, 1)"
+          >
+            <v-avatar
+              left
+              class="mr-3"
+            >
+              <v-icon size="22">
+                far fa-circle
+              </v-icon>
+            </v-avatar>
+            <div class="mr-2 font-weight-bold">
+              {{ item }}
+            </div>
+          </v-chip>
+        </template>
+      </v-autocomplete>
+    </v-card-text>
+    <v-divider />
     <v-card-text class="py-2">
       <v-col
         cols="12"
@@ -73,6 +111,8 @@ export default class ToolSelector extends Vue {
   @Prop()
   readonly value!: string[];
 
+  autoinput = null
+
   selectedTools: string[] = this.value;
 
   @Watch("selectedTools")
@@ -82,5 +122,21 @@ export default class ToolSelector extends Vue {
 }
 </script>
 
-<style>
+<style lang="scss">
+.autochips {
+  .v-select__selections {
+    padding-top: 40px !important;
+    padding-bottom: 10px;
+    margin-left: -4px;
+    margin-right: -4px;
+  }
+}
+.tool-pill {
+  > span {
+    min-width: 130px;
+    .v-chip__close {
+      margin-left: auto !important;
+    }
+  }
+}
 </style>

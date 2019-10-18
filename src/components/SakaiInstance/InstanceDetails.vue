@@ -37,7 +37,7 @@
           </v-row>
           <v-row no-gutters>
             <v-col
-              cols="6"
+              cols="7"
               class="pr-2"
             >
               <ToolSelector
@@ -48,6 +48,7 @@
             <v-col
               cols="6"
               class="pl-2"
+              v-if="false"
             >
               <MavenOptions v-model="selectedGoals" />
             </v-col>
