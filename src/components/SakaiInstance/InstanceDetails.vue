@@ -1,5 +1,5 @@
 <template>
-  <v-layout justify-center>
+  <v-layout justify-center wrap>
     <v-flex
       xs12
       class="mb-auto"
@@ -46,11 +46,12 @@
               />
             </v-col>
             <v-col
-              cols="6"
+              cols="5"
               class="pl-2"
-              v-if="false"
+              
             >
-              <MavenOptions v-model="selectedGoals" />
+            <v-treeview selectable :items="testt.children"></v-treeview>
+              <MavenOptions v-if="false" v-model="selectedGoals" />
             </v-col>
           </v-row>
         </v-card-text>
@@ -78,7 +79,7 @@ import AppStoreModule from "../../core/app.store";
 
 const { dialog } = require("electron").remote;
 
-import ToolManager from "../../../src/functions/ToolManager";
+import ToolManager, { FileData } from "../../../src/functions/ToolManager";
 import { SakaiInstance } from "../../../src/models/SakaiInstance";
 
 // Components
@@ -87,6 +88,7 @@ import MavenOptions from "./MavenOptions.vue";
 import DeployDialog from "./DeployDialog.vue";
 
 import { MavenGoal } from "./MavenOptions.vue";
+import path from 'path';
 
 @Component({
   computed: {
@@ -106,6 +108,13 @@ export default class InstanceDetails extends Vue {
   selectedTools = [];
   selectedGoals: MavenGoal[] = ["clean", "install", "sakai:deploy"];
 
+  testt: FileData = {
+    name: 'empty',
+    path: '',
+    type: 'folder',
+    children: []
+  }
+
   selectPath() {
     let dialogPath = dialog.showOpenDialogSync({
       properties: ["openDirectory"]
@@ -117,6 +126,15 @@ export default class InstanceDetails extends Vue {
       });
       this.$store.commit("app/findTools", this.selectedInstance.id);
     }
+  }
+  dostuff(){
+    this.testt = ToolManager.getFilesTree( this.selectedInstance.path,0,3)
+    // console.log(ToolManager.getFilesTree('L:\\DESARROLLO\\Sakai\\source\\master\\access',0,2));
+    
+  }
+
+  mounted(){
+    this.dostuff()
   }
 }
 </script>

@@ -5,6 +5,14 @@ const child_process = require("child_process");
 const convert = require("xml-js");
 const consola = require("consola");
 
+export interface FileData {
+  name: string
+  path: string
+  type?: 'file' | 'folder'
+  extension?: string
+  children: Array<FileData>
+}
+
 class ToolManager {
   static getToolNames(sakaiPath: PathLike): string[] {
     let directories: string[] = [];
@@ -14,6 +22,38 @@ class ToolManager {
         directories.push(file.name);
       });
     return directories;
+  }
+  static getFilesTree(dirPath: string, currentLevel: number, maxLevel: number): FileData {
+    let data: FileData = {
+        name: path.basename(dirPath),
+        path: dirPath,
+        type: 'folder',
+        children: []
+    }
+    if (currentLevel > maxLevel){
+        return data;
+    }
+    fs.readdirSync(dirPath,{ withFileTypes: true }).forEach(function(element: {name:string, isDirectory: Function}) {
+        let filepath = path.join(dirPath , element.name);
+        if (!element.isDirectory()) {
+          if (!path.basename(filepath).startsWith('.')) {
+            data.children.push({
+                name: path.basename(filepath),
+                path: filepath,
+                type: 'file',
+                children: []
+            })
+          }
+        } else {
+            if(element.name !== 'target' && !element.name.startsWith('.')){
+              let aux = ToolManager.getFilesTree(filepath, currentLevel + 1, maxLevel)
+              if(aux.children.length > 0){
+                data.children.push(aux)
+              }
+            }
+        }
+    });
+    return data;
   }
   static getToolXmlObject(location: string, toolName: string): any {
     try {
