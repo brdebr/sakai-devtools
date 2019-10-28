@@ -50,8 +50,7 @@
               class="pl-2"
               
             >
-            <v-treeview selectable :items="testt.children"></v-treeview>
-              <MavenOptions v-if="false" v-model="selectedGoals" />
+              <MavenOptions v-model="selectedGoals" />
             </v-col>
           </v-row>
         </v-card-text>
@@ -126,15 +125,6 @@ export default class InstanceDetails extends Vue {
       });
       this.$store.commit("app/findTools", this.selectedInstance.id);
     }
-  }
-  dostuff(){
-    this.testt = ToolManager.getFilesTree( this.selectedInstance.path,0,3)
-    // console.log(ToolManager.getFilesTree('L:\\DESARROLLO\\Sakai\\source\\master\\access',0,2));
-    
-  }
-
-  mounted(){
-    this.dostuff()
   }
 }
 </script>

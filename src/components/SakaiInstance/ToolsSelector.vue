@@ -68,8 +68,8 @@
       </v-col>
     </v-card-text>
     <v-divider />
-    <v-card-text style="overflow-y: scroll">
-      <v-col
+    <v-card-text class="pa-0 pr-2" style="overflow-y: scroll">
+      <!-- <v-col
         cols="12"
         class="my-0 py-1"
         v-for="tool in tools"
@@ -88,7 +88,8 @@
             </span>
           </template>
         </v-checkbox>
-      </v-col>
+      </v-col> -->
+      <v-treeview selectable :items="toolsTree.children" item-key="path" open-on-click shaped hoverable/>
     </v-card-text>
   </v-card>
 </template>
@@ -97,6 +98,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Watch, Prop } from "vue-property-decorator";
+import ToolManager, { FileData } from '@/functions/ToolManager';
 
 @Component({
   model: {
@@ -112,6 +114,8 @@ export default class ToolSelector extends Vue {
   readonly value!: string[];
 
   autoinput = null
+
+  toolsTree: FileData = ToolManager.getFilesTree( this.$store.getters['app/selectedInstance'].path,0,3)
 
   selectedTools: string[] = this.value;
 
