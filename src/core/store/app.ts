@@ -2,15 +2,9 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { SakaiInstance } from "@/models/SakaiInstance";
 import ToolManager from "@/functions/ToolManager";
+import IpcManager from '@/functions/IpcManager';
 import { VuexModule, Module, Action, Mutation } from "vuex-module-decorators";
 import { ipcRenderer } from 'electron'
-
-function saveInstances(instances: SakaiInstance[]){
-  ipcRenderer.sendSync('setConfig', {
-    key: 'instances',
-    value: instances
-  });
-}
 
 Vue.use(Vuex);
 @Module({ namespaced: true, name: "app" })
@@ -56,7 +50,7 @@ export default class AppStoreModule extends VuexModule {
   @Mutation
   addsakaiInstance(val: SakaiInstance) {
     this.sakaiInstances.push(val);
-    saveInstances(this.sakaiInstances)
+    IpcManager.persistInstances(this.sakaiInstances)
   }
 
   @Mutation
@@ -72,7 +66,7 @@ export default class AppStoreModule extends VuexModule {
       el => el !== "library"
     );
 
-    saveInstances(this.sakaiInstances)
+    IpcManager.persistInstances(this.sakaiInstances)
   }
 
   @Mutation
@@ -81,7 +75,7 @@ export default class AppStoreModule extends VuexModule {
     let instance = this.sakaiInstances[index];
     instance.path = payload.path;
 
-    saveInstances(this.sakaiInstances)
+    IpcManager.persistInstances(this.sakaiInstances)
   }
 
 }

@@ -5,7 +5,7 @@ const child_process = require("child_process");
 const convert = require("xml-js");
 const consola = require("consola");
 
-class ToolManager {
+export default class ToolManager {
   static getToolNames(sakaiPath: PathLike): string[] {
     let directories: string[] = [];
     fs.readdirSync(sakaiPath, { withFileTypes: true })
@@ -90,4 +90,3 @@ class ToolManager {
     });
   }
 }
-export default ToolManager;
