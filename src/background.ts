@@ -8,6 +8,7 @@ import {
 } from "vue-cli-plugin-electron-builder/lib";
 const isDevelopment = process.env.NODE_ENV !== "production";
 import Store from 'electron-store';
+import IpcManager from './functions/IpcManager';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -20,25 +21,6 @@ let configs: Store;
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } }
 ]);
-
-ipcMain.on('setConfig', (event, payload: {key: string, value: any}) => {
-  // console.log('Setting config ...')
-  // console.log(payload);
-  configs.set(payload.key , payload.value)
-  event.returnValue = 'Set ok'
-});
-
-ipcMain.on('getConfig', (event, key: string) => {
-  // console.log('Getting config ...')
-  switch (key) {
-    case 'instances':
-      event.returnValue = configs.get(key, [])
-      break;
-    default:
-      event.returnValue = configs.get(key)
-      break;
-  }
-});
 
 function createWindow() {
   
@@ -81,6 +63,10 @@ function createWindow() {
   win.on("closed", () => {
     win = null;
   });
+
+  ipcMain.on('setConfig', IpcManager.setConfigHandler(configs));
+  
+  ipcMain.on('getConfig', IpcManager.getConfigHandler(configs));
 }
 
 // Quit when all windows are closed.
