@@ -18,8 +18,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import InstanceDetails from "../components/SakaiInstance/InstanceDetails.vue";
-import CreateInstance from '../components/SakaiInstance/CreteInstance.vue';
+import InstanceDetails from "@/components/InstanceDetails.vue";
+import CreateInstance from '@/components/SakaiInstance/CreteInstance.vue';
 
 export default Vue.extend({
   components: {

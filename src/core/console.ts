@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import inquirer from "inquirer";
 import path from "path";
-import ToolManager from "../functions/ToolManager";
+import ToolManager from "@/functions/ToolManager";
 const consola = require("consola");
 
 async function app() {

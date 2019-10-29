@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import TheDrawer from "./Layout/TheDrawer.vue";
-import TheToolbar from "./Layout/TheToolbar.vue";
+import TheDrawer from "@/components/Layout/TheDrawer.vue";
+import TheToolbar from "@/components/Layout/TheToolbar.vue";
 
 export default {
   name: "App",

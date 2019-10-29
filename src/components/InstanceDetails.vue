@@ -73,19 +73,19 @@ import { mapGetters } from "vuex";
 
 import Component from "vue-class-component";
 import { getModule } from "vuex-module-decorators";
-import AppStoreModule from "../../core/app.store";
+import AppStoreModule from "@/core/store/app";
 
 const { dialog } = require("electron").remote;
 
-import ToolManager from "../../../src/functions/ToolManager";
-import { SakaiInstance } from "../../../src/models/SakaiInstance";
+import ToolManager from "@/functions/ToolManager";
+import { SakaiInstance } from "@/models/SakaiInstance";
 
 // Components
-import ToolSelector from "./ToolsSelector.vue";
-import MavenOptions from "./MavenOptions.vue";
-import DeployDialog from "./DeployDialog.vue";
+import ToolSelector from "@/components/SakaiInstance/ToolsSelector.vue";
+import MavenOptions from "@/components/SakaiInstance/MavenOptions.vue";
+import DeployDialog from "@/components/SakaiInstance/DeployDialog.vue";
 
-import { MavenGoal } from "./MavenOptions.vue";
+import { MavenGoal } from "@/components/SakaiInstance/MavenOptions.vue";
 
 @Component({
   computed: {

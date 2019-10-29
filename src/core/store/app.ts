@@ -1,10 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { SakaiInstance } from "../models/SakaiInstance";
-import ToolManager from "../functions/ToolManager";
+import { SakaiInstance } from "@/models/SakaiInstance";
+import ToolManager from "@/functions/ToolManager";
 import { VuexModule, Module, Action, Mutation } from "vuex-module-decorators";
-const { ipcRenderer } = require('electron')
-
+import { ipcRenderer } from 'electron'
 
 function saveInstances(instances: SakaiInstance[]){
   ipcRenderer.sendSync('setConfig', {

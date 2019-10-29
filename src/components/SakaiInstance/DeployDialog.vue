@@ -116,8 +116,8 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
-import { SakaiTool } from "../../../src/models/SakaiTool";
-import { MavenGoal } from "./MavenOptions.vue";
+import { SakaiTool } from "@/models/SakaiTool";
+import { MavenGoal } from "@/components/SakaiInstance/MavenOptions.vue";
 
 const child_process = require("child_process");
 

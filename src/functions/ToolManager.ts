@@ -1,6 +1,6 @@
 import fs, { PathLike } from "fs";
 import path from "path";
-import { SakaiTool } from "../models/SakaiTool";
+import { SakaiTool } from "@/models/SakaiTool";
 const child_process = require("child_process");
 const convert = require("xml-js");
 const consola = require("consola");

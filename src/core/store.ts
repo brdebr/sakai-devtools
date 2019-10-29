@@ -1,5 +1,5 @@
 import Vuex from "vuex";
-import AppStoreModule from "./app.store";
+import AppStoreModule from "@/core/store/app";
 
 const store = new Vuex.Store({
   modules: {

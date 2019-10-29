@@ -73,7 +73,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { SakaiInstance } from "../../../src/models/SakaiInstance";
+import { SakaiInstance } from "@/models/SakaiInstance";
 import path from "path";
 
 const { dialog } = require("electron").remote;
