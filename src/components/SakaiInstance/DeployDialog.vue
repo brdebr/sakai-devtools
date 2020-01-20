@@ -9,7 +9,7 @@
         depressed
         dark
         :disabled="disabled"
-        v-on="on"
+        @click="sss"
         color="success"
       >
         <span>
@@ -158,6 +158,12 @@ export default class DeployDialog extends Vue {
         100) /
       this.states.length
     );
+  }
+
+  sss(){
+    console.log(this);
+    // this.$store.dispatch('deploy/stuff')
+    this.$store.commit('deploy/testt')
   }
 
   getStateIcon(state: string) {
