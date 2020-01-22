@@ -1,26 +1,26 @@
 <template>
   <v-navigation-drawer
-    :mini-variant="$store.state.app.layout.drawerMini"
-    :value="$store.state.app.layout.drawer"
+    :mini-variant="$store.state.layout.drawerMini"
+    :value="$store.state.layout.drawer"
     clipped
     :mobile-break-point="950"
     class="drawer-border"
     fixed
     app
-    @input="(val) => $store.commit('app/setDrawer', val)"
+    @input="(val) => $store.commit('layout/setDrawer', val)"
   >
     <v-layout
       column
       justify-space-between
       fill-height
     >
-      <v-list :shaped="!$store.state.app.layout.drawerMini">
+      <v-list :shaped="!$store.state.layout.drawerMini">
         <v-list-item
           class="blue drawer-header"
           dark
         >
           <span
-            v-if="!$store.state.app.layout.drawerMini"
+            v-if="!$store.state.layout.drawerMini"
             class="font-weight-bold d-inline-block text-truncate text-center"
           >
             Instances
@@ -55,24 +55,24 @@
         mode="out-in"
       >
         <div
-          :key="$store.state.app.layout.drawerMini"
+          :key="$store.state.layout.drawerMini"
           :class="
             `${
-              $store.state.app.layout.drawerMini ? 'mx-auto' : 'mx-3'
+              $store.state.layout.drawerMini ? 'mx-auto' : 'mx-3'
             } mb-3`
           "
         >
           <v-btn
-            :icon="$store.state.app.layout.drawerMini"
-            :small="$store.state.app.layout.drawerMini"
-            :block="!$store.state.app.layout.drawerMini"
+            :icon="$store.state.layout.drawerMini"
+            :small="$store.state.layout.drawerMini"
+            :block="!$store.state.layout.drawerMini"
             outlined
             style="color: rgba(0, 0, 0, 0.54);"
-            @click.stop="$store.commit('app/toggleDrawerMini')"
+            @click.stop="$store.commit('layout/toggleDrawerMini')"
           >
             <v-icon small>
               {{
-                $store.state.app.layout.drawerMini
+                $store.state.layout.drawerMini
                   ? 'fas fa-chevron-right'
                   : 'fas fa-chevron-left'
               }}

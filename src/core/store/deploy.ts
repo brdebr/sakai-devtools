@@ -1,7 +1,6 @@
 import { Module } from "vuex";
 import { MavenGoal } from "@/models/MavenGoal";
 import { SakaiToolDeployment } from "@/models/SakaiToolDeployment";
-import Vue from "vue";
 
 const DeploymentsStoreModule: Module<any, any> = {
   namespaced: true,

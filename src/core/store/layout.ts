@@ -1,29 +1,22 @@
 import { VuexModule, Module, Mutation } from "vuex-module-decorators";
 
-// Interfaces
-interface LayoutState {
-  drawer: boolean;
-  drawerMini: boolean;
-}
-
 @Module({ namespaced: true, name: "layout" })
 export default class LayoutStoreModule extends VuexModule {
-  layout: LayoutState = {
-    drawer: true,
-    drawerMini: false
-  };
+  drawer = true
+  drawerMini = false
+
   @Mutation
   toggleDrawer() {
-    this.layout.drawer = !this.layout.drawer;
+    this.drawer = !this.drawer;
   }
   @Mutation
   toggleDrawerMini() {
-    this.layout.drawerMini = !this.layout.drawerMini;
+    this.drawerMini = !this.drawerMini;
   }
 
   @Mutation
   setDrawer(val: boolean) {
-    this.layout.drawer = val;
+    this.drawer = val;
   }
 }
 

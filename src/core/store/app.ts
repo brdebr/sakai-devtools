@@ -1,31 +1,11 @@
-import Vue from "vue";
-import Vuex from "vuex";
 import { SakaiInstance } from "@/models/SakaiInstance";
 import ToolManager from "@/functions/ToolManager";
 import IpcManager from '@/functions/IpcManager';
-import { VuexModule, Module, Action, Mutation } from "vuex-module-decorators";
+import { VuexModule, Module, Mutation } from "vuex-module-decorators";
 import { ipcRenderer } from 'electron'
 
 @Module({ namespaced: true, name: "app" })
 export default class AppStoreModule extends VuexModule {
-  layout: LayoutState = {
-    drawer: true,
-    drawerMini: false
-  };
-  @Mutation
-  toggleDrawer() {
-    this.layout.drawer = !this.layout.drawer;
-  }
-  @Mutation
-  toggleDrawerMini() {
-    this.layout.drawerMini = !this.layout.drawerMini;
-  }
-
-  @Mutation
-  setDrawer(val: boolean) {
-    this.layout.drawer = val;
-  }
-
   sakaiInstances: SakaiInstance[] = [];
 
   selectedInstanceIndex: number = 0;
@@ -77,10 +57,4 @@ export default class AppStoreModule extends VuexModule {
     IpcManager.persistInstances(this.sakaiInstances)
   }
 
-}
-
-// Interfaces
-interface LayoutState {
-  drawer: boolean;
-  drawerMini: boolean;
 }
