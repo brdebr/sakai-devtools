@@ -8,7 +8,12 @@
         fill-height
         fluid
       >
-        <router-view />
+        <transition
+            name="page"
+            mode="out-in"
+          >
+        <router-view :key="$route.fullPath" />
+        </transition>
       </v-container>
     </v-content>
   </v-app>
