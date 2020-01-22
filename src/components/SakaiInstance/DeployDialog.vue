@@ -161,9 +161,10 @@ export default class DeployDialog extends Vue {
   }
 
   sss(){
-    console.log(this);
+    // console.log(this);
     // this.$store.dispatch('deploy/stuff')
     this.$store.commit('deploy/testt')
+    this.$store.dispatch('deploy/fuck')
   }
 
   getStateIcon(state: string) {
