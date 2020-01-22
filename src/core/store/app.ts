@@ -6,7 +6,6 @@ import IpcManager from '@/functions/IpcManager';
 import { VuexModule, Module, Action, Mutation } from "vuex-module-decorators";
 import { ipcRenderer } from 'electron'
 
-Vue.use(Vuex);
 @Module({ namespaced: true, name: "app" })
 export default class AppStoreModule extends VuexModule {
   layout: LayoutState = {
