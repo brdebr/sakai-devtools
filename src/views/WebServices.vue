@@ -10,27 +10,29 @@
     </v-card-title>
     <v-card-text class="pt-5 pb-3">
       <transition :name="`move-x${!sessionId ? '-reverse' : ''}`" mode="out-in">
-        <v-row no-gutters wrap align="center" v-if="sessionId" key="in">
-          <v-col no-gutters class="flex-grow-1 flex-shrink-0">
-            <v-row no-gutters>
-              <v-col no-gutters cols="12">
-                Logged In:
-              </v-col>
-              <v-col no-gutters cols="12">
-                {{ sessionId }}
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col no-gutters class="flex-grow-0">
-            <v-btn depressed @click="logOut">
-              Log out
-            </v-btn>
-          </v-col>
-        </v-row>
+        <v-container class="pa-0 ma-0" v-if="sessionId" key="in">
+          <v-row no-gutters wrap align="center" >
+            <v-col no-gutters>
+              <v-row no-gutters>
+                <v-col no-gutters cols="12">
+                  Session ID:
+                </v-col>
+                <v-col no-gutters cols="12">
+                  {{ sessionId }}
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col no-gutters class="flex-grow-0">
+              <v-btn depressed @click="logOut">
+                Log out
+              </v-btn>
+            </v-col>
+          </v-row>
+          <WebServicesActions v-if="sessionId" :session-id="sessionId" :key="sessionId" />
+        </v-container>
         <LoginForm @logged="logged" v-else key="out" />
       </transition>
     </v-card-text>
-    <WebServicesActions v-if="sessionId" :session-id="sessionId" />
   </v-card>
 </template>
 

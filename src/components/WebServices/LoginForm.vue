@@ -48,8 +48,8 @@ import WebServiceManager from "@/functions//WsManager";
 export default class LoginForm extends Vue {
   loading = false;
   loginParams: LoginParams = {
-    id: "",
-    pw: ""
+    id: "admin",
+    pw: "admin"
   };
   async login() {
     // @ts-ignore
