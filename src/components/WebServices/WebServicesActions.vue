@@ -11,7 +11,7 @@
     <v-divider class="my-3"/>
     <v-row no-gutters>
       <v-col no-gutters class="mx-auto flex-grow-0">
-          <AddNewUser/>
+          <AddNewUser :session-id="sessionId"/>
       </v-col>
     </v-row>
   </v-container>

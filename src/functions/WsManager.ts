@@ -44,12 +44,13 @@ export default class WebServiceManager {
   }
   static async addNewUser(
     params: addUserParams,
-    baseURL: String
+    baseURL: String,
+    sessionid: String
   ): Promise<String> {
     let endpoint = "/sakai/addNewUser";
     let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
       headers,
-      params
+      params: { sessionid, ...params }
     });
     return data;
   }

@@ -11,7 +11,7 @@
         Add new User
       </v-btn>
     </template>
-    <v-card dark class="indigo darken-3">
+    <v-card dark class="indigo darken-3" :loading="loading">
       <v-card-title class="elevation-2 indigo darken-4 py-3">
         <span>
           Add new User
@@ -71,7 +71,7 @@
       </v-card-text>
       <v-divider />
       <v-card-actions>
-        <v-btn class="ml-auto mr-4" depressed>
+        <v-btn class="ml-auto mr-4" depressed @click="saveUser" :loading="loading">
           Create
         </v-btn>
       </v-card-actions>
@@ -83,13 +83,14 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
-import { addUserParams } from "../../../functions/WsManager";
+import WebServiceManager, { addUserParams } from "@/functions/WsManager";
 
 var faker = require("faker");
 
 @Component({})
 export default class AddNewUser extends Vue {
   dialog = false;
+  loading = false;
   params: addUserParams = {
     eid: "",
     firstname: "",
@@ -97,6 +98,8 @@ export default class AddNewUser extends Vue {
     email: "",
     password: "sakai"
   };
+  @Prop()
+  sessionId!: String
 
   @Watch("dialog")
   refreshFakes(newVal: Boolean, oldVal: Boolean) {
@@ -105,15 +108,28 @@ export default class AddNewUser extends Vue {
             eid: faker.internet.userName(),
             firstname: faker.name.firstName(),
             lastname: faker.name.lastName(),
-            email: faker.internet.email().replace('.com','-tests.com'),
+            email: faker.internet.email().replace('.com','-mock.com'),
             password: "sakai"
           };
       }
   }
 
+  async saveUser(){
+      this.loading = true
+      try {
+          let aux = await WebServiceManager.addNewUser(this.params, this.$store.state.app.baseURL, this.sessionId)
+          this.dialog = false
+      } catch (error) {
+          console.warn('WebServiceManager.addNewUser');
+          console.log(error);
+      }
+      this.loading = false
+  }
+
   resetForm(){
       // @ts-ignore
       this.$refs.form.reset()
+      this.loading = false
   }
 }
 </script>
