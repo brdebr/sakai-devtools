@@ -11,12 +11,9 @@
     <v-divider class="my-3"/>
     <v-row no-gutters>
       <v-col no-gutters class="mx-auto flex-grow-0">
-        <v-btn light color="grey lighten-5" class="font-weight-bold" depressed>
-          Add new User
-        </v-btn>
+          <AddNewUser/>
       </v-col>
     </v-row>
-
   </v-container>
 </template>
 
@@ -25,8 +22,13 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import WebServiceManager from '@/functions/WsManager';
+import AddNewUser from './Fragments/AddNewUser.vue';
 
-@Component({})
+@Component({
+    components: {
+        AddNewUser
+    }
+})
 export default class WebServicesActions extends Vue {
   @Prop()
   sessionId!: String;

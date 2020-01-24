@@ -1,0 +1,74 @@
+<template>
+  <v-dialog v-model="dialog" max-width="80%">
+    <template #activator="{ on }">
+      <v-btn
+        light
+        color="grey lighten-5"
+        class="font-weight-bold"
+        depressed
+        v-on="on"
+      >
+        Add new User
+      </v-btn>
+    </template>
+    <v-card dark class="indigo darken-3" >
+      <v-card-title class="elevation-2 indigo darken-4 py-3">
+        Add new User
+      </v-card-title>
+      <v-card-text class="pt-5 pb-3">
+        <v-form ref="form">
+          <v-row no-gutters>
+            <v-col no-gutters>
+              <v-text-field outlined label="User ID" v-model="params.eid" />
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col no-gutters>
+              <v-text-field outlined label="Email" v-model="params.email" />
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col no-gutters>
+              <v-text-field outlined label="Password" v-model="params.password" />
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col no-gutters>
+              <v-text-field outlined label="First name" v-model="params.firstname" />
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col no-gutters>
+              <v-text-field outlined label="Last name" v-model="params.lastname" />
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+      <v-divider/>
+      <v-card-actions>
+          <v-btn class="ml-auto mr-4" depressed>
+              Create
+          </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+import Component from "vue-class-component";
+import { Prop } from "vue-property-decorator";
+import { addUserParams } from "../../../functions/WsManager";
+
+@Component({})
+export default class AddNewUser extends Vue {
+  dialog = false;
+  params: addUserParams = {
+    eid: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "sakai"
+  };
+}
+</script>

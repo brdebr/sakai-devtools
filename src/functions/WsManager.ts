@@ -7,12 +7,12 @@ export interface sakaiParam {
   sessionid: String;
 }
 
-export interface addUserParams extends sakaiParam {
+export interface addUserParams {
   eid: String;
   firstname: String;
   lastname: String;
   email: String;
-  type: String;
+  type?: String;
   password: String;
 }
 
