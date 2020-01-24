@@ -21,6 +21,12 @@
       Sakai DevTools
     </v-toolbar-title>
     <v-spacer />
+    <v-btn to="/" depressed class="mr-4">
+      Deploy
+    </v-btn>
+    <v-btn to="/webservices" depressed class="mr-4">
+      WebServices
+    </v-btn>
     <CreateInstance v-if="$store.getters['app/selectedInstance']" />
   </v-app-bar>
 </template>
