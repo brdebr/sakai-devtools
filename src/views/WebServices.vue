@@ -1,51 +1,53 @@
 <template>
-    <v-card dark
-        class="blue darken-2 mx-auto" min-width="100%">
-      <v-card-title class="elevation-2 blue darken-3 pt-3">
-        WebServices
-      </v-card-title>
-      <v-card-text class="pt-5" @click="testt">
-        <v-row>
-          
-        </v-row>
-      </v-card-text>
-    </v-card>
+  <v-card dark class="blue darken-2 mx-auto" min-width="100%">
+    <v-card-title class="elevation-2 blue darken-3 pt-3">
+      WebServices
+    </v-card-title>
+    <v-card-text class="pt-5 pb-3" v-if="sessionId">
+      <v-row no-gutters wrap align="center">
+        <v-col no-gutters class="flex-grow-1 flex-shrink-0">
+          <v-row no-gutters>
+            <v-col no-gutters cols="12">
+              Logged In
+            </v-col>
+            <v-col no-gutters cols="12">
+              {{ sessionId }}
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col no-gutters class="flex-grow-0">
+          <v-btn depressed @click="logOut">
+            Log out
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-card-text>
+    <v-card-text class="pt-5 pb-3" v-else>
+      <LoginForm @logged="logged" />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import InstanceDetails from "@/components/InstanceDetails.vue";
-import WebServices from '@/views/WebServices.vue';
+import Component from "vue-class-component";
+import { Prop } from "vue-property-decorator";
 
-export default Vue.extend({
+import LoginForm from "@/components/WebServices/LoginForm.vue";
+import { LoginParams } from "@/functions/WsManager";
+
+@Component({
   components: {
-    InstanceDetails
-  },
-  data() {
-    return {
-      login: null
-    }
-  },
-  methods:{
-    async testt(){
-      try {
-
-
-        let aux = 1211
-
-        // let aux = await axios.get('http://localhost:8080/sakai-ws/rest/sakai/getAllUsers', {
-        //   withCredentials: true,
-        //   params: {
-        //     sessionid: sessionId
-        //   }
-        // })
-        console.log(aux);
-        
-      } catch (error) {
-        console.log('FUCK');
-        console.log(error);
-      }
-    }
+    LoginForm
   }
-});
+})
+export default class WebServicesPage extends Vue {
+  sessionId: String = "";
+  logged(sessionId: String) {
+    this.sessionId = sessionId;
+  }
+  logOut(){
+    this.sessionId = ""
+  }
+}
 </script>

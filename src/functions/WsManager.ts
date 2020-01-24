@@ -7,13 +7,13 @@ export interface LoginParams {
 
 export default class WebServiceManager {
     static async login(params: LoginParams): Promise<String>{
-        let loginResp = await axios.get('http://localhost:8080/sakai-ws/rest/login/login', {
+        let { data } = await axios.get('http://localhost:8080/sakai-ws/rest/login/login', {
             headers: {
                 'Accept': 'text-plain'
             },
             withCredentials: false,
             params
         })
-        return loginResp
+        return data
     }
 }
