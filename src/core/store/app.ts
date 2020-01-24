@@ -57,4 +57,6 @@ export default class AppStoreModule extends VuexModule {
     IpcManager.persistInstances(this.sakaiInstances)
   }
 
+  baseURL: String = "http://localhost:8080"
+
 }

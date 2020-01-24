@@ -56,7 +56,7 @@ export default class LoginForm extends Vue {
     if (!this.$refs["form"].validate()) {
       return;
     }
-    let sessionId = await WebServiceManager.login(this.loginParams);
+    let sessionId = await WebServiceManager.login(this.loginParams, this.$store.state.app.baseURL);
     this.$emit("logged", sessionId);
   }
 }

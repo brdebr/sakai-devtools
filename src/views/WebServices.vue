@@ -1,11 +1,16 @@
 <template>
-  <v-card dark class="blue darken-2 mx-auto overflow-hidden" min-width="100%" min-height="500px">
+  <v-card
+    dark
+    class="blue darken-2 mx-auto overflow-hidden"
+    min-width="100%"
+    min-height="500px"
+  >
     <v-card-title class="elevation-2 blue darken-3 pt-3">
       WebServices
     </v-card-title>
-    <transition :name="`move-x${!sessionId ? '-reverse' :''}`" mode="out-in">
-      <v-card-text class="pt-5 pb-3" v-if="sessionId" key="in">
-        <v-row no-gutters wrap align="center">
+    <v-card-text class="pt-5 pb-3">
+      <transition :name="`move-x${!sessionId ? '-reverse' : ''}`" mode="out-in">
+        <v-row no-gutters wrap align="center" v-if="sessionId" key="in">
           <v-col no-gutters class="flex-grow-1 flex-shrink-0">
             <v-row no-gutters>
               <v-col no-gutters cols="12">
@@ -22,11 +27,10 @@
             </v-btn>
           </v-col>
         </v-row>
-      </v-card-text>
-      <v-card-text class="pt-5 pb-3" v-else key="out">
-        <LoginForm @logged="logged" />
-      </v-card-text>
-    </transition>
+        <LoginForm @logged="logged" v-else key="out" />
+      </transition>
+    </v-card-text>
+    <WebServicesActions v-if="sessionId" :session-id="sessionId" />
   </v-card>
 </template>
 
@@ -35,12 +39,15 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 
+import WebServicesActions from "@/components/WebServices/WebServicesActions.vue"
+
 import LoginForm from "@/components/WebServices/LoginForm.vue";
 import { LoginParams } from "@/functions/WsManager";
 
 @Component({
   components: {
-    LoginForm
+    LoginForm,
+    WebServicesActions
   }
 })
 export default class WebServicesPage extends Vue {
@@ -48,8 +55,8 @@ export default class WebServicesPage extends Vue {
   logged(sessionId: String) {
     this.sessionId = sessionId;
   }
-  logOut(){
-    this.sessionId = ""
+  logOut() {
+    this.sessionId = "";
   }
 }
 </script>
