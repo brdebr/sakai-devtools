@@ -14,6 +14,36 @@
   //   transform: translateX(30%);
 }
 
+.move-x-enter-active {
+  transition: all 0.3s ease-out;
+}
+.move-x-leave-active {
+  transition: all 0.3s ease-in;
+}
+.move-x-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.move-x-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.move-x-reverse-enter-active {
+  transition: all 0.3s ease-out;
+}
+.move-x-reverse-leave-active {
+  transition: all 0.3s ease-in;
+}
+.move-x-reverse-enter {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.move-x-reverse-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
 // Flip X
 .flip-x-enter {
   transform: rotateY(90deg);
