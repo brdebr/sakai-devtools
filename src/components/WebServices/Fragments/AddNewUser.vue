@@ -11,9 +11,22 @@
         Add new User
       </v-btn>
     </template>
-    <v-card dark class="indigo darken-3" >
+    <v-card dark class="indigo darken-3">
       <v-card-title class="elevation-2 indigo darken-4 py-3">
-        Add new User
+        <span>
+          Add new User
+        </span>
+        <v-spacer />
+        <v-btn icon outlined @click="resetForm" class="mr-3">
+          <v-icon small>
+            far fa-trash-alt
+          </v-icon>
+        </v-btn>
+        <v-btn icon outlined @click="refreshFakes">
+          <v-icon small>
+            fas fa-redo
+          </v-icon>
+        </v-btn>
       </v-card-title>
       <v-card-text class="pt-5 pb-3">
         <v-form ref="form">
@@ -29,26 +42,38 @@
           </v-row>
           <v-row no-gutters>
             <v-col no-gutters>
-              <v-text-field outlined label="Password" v-model="params.password" />
+              <v-text-field
+                outlined
+                label="Password"
+                v-model="params.password"
+              />
             </v-col>
           </v-row>
           <v-row no-gutters>
             <v-col no-gutters>
-              <v-text-field outlined label="First name" v-model="params.firstname" />
+              <v-text-field
+                outlined
+                label="First name"
+                v-model="params.firstname"
+              />
             </v-col>
           </v-row>
           <v-row no-gutters>
             <v-col no-gutters>
-              <v-text-field outlined label="Last name" v-model="params.lastname" />
+              <v-text-field
+                outlined
+                label="Last name"
+                v-model="params.lastname"
+              />
             </v-col>
           </v-row>
         </v-form>
       </v-card-text>
-      <v-divider/>
+      <v-divider />
       <v-card-actions>
-          <v-btn class="ml-auto mr-4" depressed>
-              Create
-          </v-btn>
+        <v-btn class="ml-auto mr-4" depressed>
+          Create
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -57,8 +82,10 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { Prop } from "vue-property-decorator";
+import { Prop, Watch } from "vue-property-decorator";
 import { addUserParams } from "../../../functions/WsManager";
+
+var faker = require("faker");
 
 @Component({})
 export default class AddNewUser extends Vue {
@@ -70,5 +97,23 @@ export default class AddNewUser extends Vue {
     email: "",
     password: "sakai"
   };
+
+  @Watch("dialog")
+  refreshFakes(newVal: Boolean, oldVal: Boolean) {
+      if(newVal){
+          this.params = {
+            eid: faker.internet.userName(),
+            firstname: faker.name.firstName(),
+            lastname: faker.name.lastName(),
+            email: faker.internet.email().replace('.com','-tests.com'),
+            password: "sakai"
+          };
+      }
+  }
+
+  resetForm(){
+      // @ts-ignore
+      this.$refs.form.reset()
+  }
 }
 </script>

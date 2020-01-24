@@ -20,6 +20,7 @@
         "axios": "^0.19.2",
         "consola": "^2.10.1",
         "electron-store": "^5.0.0",
+        "faker": "^4.1.0",
         "inquirer": "^7.0.0",
         "register-service-worker": "^1.6.2",
         "roboto-fontface": "*",
