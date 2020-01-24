@@ -38,7 +38,8 @@ function createWindow() {
     maxWidth: 1800,
     maxHeight: 1000,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      webSecurity: false
     },
     // @ts-ignore
     icon: path.join(__static, 'icon.png')
