@@ -6,7 +6,7 @@ export interface LoginParams {
   pw: String;
 }
 
-export interface sakaiParam {
+export interface sessionIdParam {
   sessionid: String;
 }
 

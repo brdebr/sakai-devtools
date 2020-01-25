@@ -2,7 +2,7 @@ import { siteParams } from '../models/WsInterfaces';
 import {
   addUserParams,
   LoginParams,
-  sakaiParam,
+  sessionIdParam,
   userResponse
 } from "@/models/WsInterfaces";
 
@@ -24,7 +24,7 @@ export default class WebServiceManager {
   }
 
   static async resetAllUserWorkspace(
-    params: sakaiParam,
+    params: sessionIdParam,
     baseURL: String
   ): Promise<Boolean> {
     let endpoint = "/sakai/resetAllUserWorkspace";
@@ -36,7 +36,7 @@ export default class WebServiceManager {
   }
 
   static async getAllUsers(
-    params: sakaiParam,
+    params: sessionIdParam,
     baseURL: String
   ): Promise<Array<userResponse>> {
     let endpoint = "/sakai/getAllUsers";
