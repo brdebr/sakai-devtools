@@ -13,26 +13,33 @@
     </template>
     <v-card dark class="indigo darken-3" :loading="loading">
       <v-card-title class="elevation-2 indigo darken-4 py-3">
-        <span>
-          Users List
-        </span>
+        <span> Users List {{ list.length }} </span>
         <v-spacer />
-        <v-btn icon outlined  class="mr-3">
+        <v-btn icon outlined class="mr-3">
           <v-icon small @click="getAllUsers">
             far fa-trash-alt
           </v-icon>
         </v-btn>
-        <v-btn icon outlined >
+        <v-btn icon outlined>
           <v-icon small>
             fas fa-redo
           </v-icon>
         </v-btn>
       </v-card-title>
-      <v-card-text class="pt-5 pb-3">
-        <v-data-table>
-          
-        </v-data-table>
-      </v-card-text>
+      <v-data-table :items="list" :headers="headers" item-key="userId">
+        <template #item.userId="{ item }">
+          <v-btn icon outlined :title="`Click to copy [ ${item.userId} ]`">
+            <v-icon small>
+              far fa-clipboard
+            </v-icon>
+          </v-btn>
+        </template>
+        <template #item.type="{ item }">
+          <span>
+            {{item.type || '- - - -'}}
+          </span>
+        </template>
+      </v-data-table>
     </v-card>
   </v-dialog>
 </template>
@@ -41,24 +48,36 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
-import WebServiceManager, { userResponse } from '@/functions/WsManager';
+import WebServiceManager, { userResponse } from "@/functions/WsManager";
 
 @Component({})
-export default class AddNewUser extends Vue {
+export default class UsersList extends Vue {
   dialog = false;
   loading = false;
   @Prop()
-  sessionId!: String
+  sessionId!: String;
 
-  list: Array<userResponse> = []
+  list: Array<userResponse> = [];
+  headers: any = [
+    { text: "ID", value: "userId", width: "80", align: "center" },
+    { text: "EID", value: "eid" },
+    { text: "Name", value: "displayName" },
+    { text: "Type", value: "type" }
+  ];
 
-  async getAllUsers(){
-    this.list = await WebServiceManager.getAllUsers({sessionid: this.sessionId}, this.$store.state.app.baseURL)
+  @Watch("dialog")
+  async getAllUsers(newVal: Boolean, oldVal: Boolean) {
+    if (newVal) {
+      this.list = await WebServiceManager.getAllUsers(
+        { sessionid: this.sessionId },
+        this.$store.state.app.baseURL
+      );
+    }
   }
 
-  reset(){
-      this.loading = false
-      this.dialog = false
+  reset() {
+    this.loading = false;
+    this.dialog = false;
   }
 }
 </script>
