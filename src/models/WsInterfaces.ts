@@ -1,4 +1,3 @@
-
 // Params
 
 export interface LoginParams {
@@ -43,6 +42,8 @@ export interface userResponse {
 }
 
 export interface getAllSitesForCurrentUserResponse {
-  siteId: String,
-  siteTitle: String
+  siteId: String;
+  siteTitle: String;
+  siteType?: String;
+  siteGroups?: Number;
 }
