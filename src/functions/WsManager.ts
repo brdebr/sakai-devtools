@@ -56,9 +56,20 @@ export default class WebServiceManager {
       ignoreComment: true,
       alwaysChildren: true
     });
-    let arrayList =  result.elements[0].elements
+      // array de 8
+    let arrayList =  result.elements[0].elements.map((el:any) => {
+      let aux = el.elements.map((el:any) => {
+        return {
+          [el.name]: el.elements[0] ? el.elements[0].text : null
+        }
+      }) // item
+      //aux = arry de 4 prop y valor
+      return aux.reduce((acc:any, val:any) => {
+        return {...acc,...val}
+      },{})
+    })
     
-    return result;
+    return arrayList;
   }
   static async addNewUser(
     params: addUserParams,
