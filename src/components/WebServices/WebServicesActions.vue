@@ -4,7 +4,12 @@
     <v-row no-gutters>
       <v-col no-gutters class="mx-auto flex-grow-0">
         <v-btn light color="grey lighten-5" class="font-weight-bold" depressed @click="resetAllUserWorkspace">
-          Reset All User Workspaces
+          <span class="mr-1">
+            Reset All User Workspaces
+          </span>
+          <v-icon small right>
+            fas fa-trash-restore-alt
+          </v-icon>
         </v-btn>
       </v-col>
     </v-row>

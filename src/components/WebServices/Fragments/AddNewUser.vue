@@ -13,7 +13,12 @@
         depressed
         v-on="on"
       >
-        Add new User
+        <span class="mr-1">
+          Add new User
+        </span>
+        <v-icon small right>
+          fas fa-user-plus
+        </v-icon>
       </v-btn>
     </template>
     <v-card dark class="indigo darken-3" :loading="loading">

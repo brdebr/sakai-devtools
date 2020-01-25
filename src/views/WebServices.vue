@@ -11,8 +11,13 @@
     </v-card-title>
     <v-card-text class="pt-5 pb-3" style="height: -webkit-fill-available">
       <transition :name="`move-x${!sessionId ? '-reverse' : ''}`" mode="out-in">
-        <v-container class="pa-0 ma-0 fill-height" fluid v-if="sessionId" key="in">
-          <v-row no-gutters wrap align="center" >
+        <v-container
+          class="pa-0 ma-0 fill-height"
+          fluid
+          v-if="sessionId"
+          key="in"
+        >
+          <v-row no-gutters wrap align="center">
             <v-col no-gutters>
               <v-row no-gutters>
                 <v-col no-gutters cols="12">
@@ -25,11 +30,20 @@
             </v-col>
             <v-col no-gutters class="flex-grow-0">
               <v-btn depressed @click="logOut">
-                Log out
+                <span class="mr-1">
+                  Log out
+                </span>
+                <v-icon small right>
+                  fas fa-sign-out-alt
+                </v-icon>
               </v-btn>
             </v-col>
           </v-row>
-          <WebServicesActions v-if="sessionId" :session-id="sessionId" :key="sessionId" />
+          <WebServicesActions
+            v-if="sessionId"
+            :session-id="sessionId"
+            :key="sessionId"
+          />
         </v-container>
         <LoginForm @logged="logged" v-else key="out" />
       </transition>
@@ -42,11 +56,11 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 
-import WebServicesActions from "@/components/WebServices/WebServicesActions.vue"
+import WebServicesActions from "@/components/WebServices/WebServicesActions.vue";
 
 import LoginForm from "@/components/WebServices/LoginForm.vue";
-import { LoginParams } from '@/models/WsInterfaces';
-import WebServiceManager from '../functions/WsManager';
+import { LoginParams } from "@/models/WsInterfaces";
+import WebServiceManager from "../functions/WsManager";
 
 @Component({
   components: {
@@ -61,7 +75,10 @@ export default class WebServicesPage extends Vue {
   }
   async logOut() {
     try {
-      let aux = await WebServiceManager.logout({sessionid: this.sessionId}, this.$store.state.app.baseURL)
+      let aux = await WebServiceManager.logout(
+        { sessionid: this.sessionId },
+        this.$store.state.app.baseURL
+      );
       console.log(`Logged out : ${aux}`);
     } catch (error) {
       console.warn("WebServiceManager.logout");

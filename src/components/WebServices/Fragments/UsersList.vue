@@ -14,7 +14,12 @@
         depressed
         v-on="on"
       >
-        Users List
+        <span class="mr-1">
+          Users List
+        </span>
+        <v-icon size="14" right>
+          far fa-list-alt
+        </v-icon>
       </v-btn>
     </template>
     <v-card dark :loading="loading">

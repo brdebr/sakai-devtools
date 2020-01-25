@@ -14,7 +14,12 @@
         depressed
         v-on="on"
       >
-        Add new Site
+        <span class="mr-1">
+          Add new Site
+        </span>
+        <v-icon small right>
+          far fa-plus-square
+        </v-icon>
       </v-btn>
     </template>
     <v-card dark class="indigo darken-3" :loading="loading">

@@ -14,7 +14,12 @@
         depressed
         v-on="on"
       >
-        Sites List
+        <span class="mr-1">
+          Sites List
+        </span>
+        <v-icon size="14" right>
+          far fa-list-alt
+        </v-icon>
       </v-btn>
     </template>
     <v-card dark :loading="loading">
@@ -78,7 +83,7 @@ export default class SitesList extends Vue {
   @Watch("dialog")
   async getAllSites(newVal: Boolean, oldVal: Boolean) {
     if (newVal) {
-      this.loading = true
+      this.loading = true;
       try {
         this.list = await WebServiceManager.getAllSitesForCurrentUser(
           { sessionid: this.sessionId },
@@ -88,7 +93,7 @@ export default class SitesList extends Vue {
         console.warn("WebServiceManager.getAllSitesForCurrentUser");
         console.log(error);
       }
-      this.loading = false
+      this.loading = false;
     }
   }
 
