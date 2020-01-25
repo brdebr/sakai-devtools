@@ -59,3 +59,25 @@ html {
   );
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', endColorstr='#b5c6d0', GradientType=0 );
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: rgb(34, 89, 172);
+  &:hover{
+    background: rgb(18, 91, 201);
+  }
+}
+
+::-webkit-scrollbar-track {
+  margin-top: 2px;
+  margin-bottom: 0px;
+  background: #cccccc5b;
+  &:hover{
+    background: #bcbdff67;
+  }
+}
+
