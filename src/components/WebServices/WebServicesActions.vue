@@ -18,6 +18,12 @@
       </v-col>
     </v-row>
     <v-divider class="my-3"/>
+    <v-row no-gutters>
+      <v-col no-gutters class="mx-auto flex-grow-0">
+          <AddNewSite :session-id="sessionId"/>
+      </v-col>
+    </v-row>
+    <v-divider class="my-3"/>
   </v-container>
 </template>
 
@@ -26,13 +32,15 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
 import WebServiceManager from '@/functions/WsManager';
-import AddNewUser from './Fragments/AddNewUser.vue';
-import UsersList from './Fragments/UsersList.vue';
+import AddNewUser from '@/components/WebServices/Fragments/AddNewUser.vue';
+import UsersList from '@/components/WebServices/Fragments/UsersList.vue';
+import AddNewSite from '@/components/WebServices/Fragments/AddNewSite.vue';
 
 @Component({
     components: {
         AddNewUser,
-        UsersList
+        UsersList,
+        AddNewSite
     }
 })
 export default class WebServicesActions extends Vue {
