@@ -21,11 +21,15 @@
       Sakai DevTools
     </v-toolbar-title>
     <v-spacer />
-    <v-btn to="/" depressed class="mr-4">
-      Deploy
+    <v-btn to="/" depressed class="mr-4" active-class="v-btn--outlined active-nav">
+      <span class="nav-text">
+        Deploy
+      </span>
     </v-btn>
-    <v-btn to="/webservices" depressed class="mr-4">
-      WebServices
+    <v-btn to="/webservices" depressed class="mr-4" active-class="v-btn--outlined active-nav">
+      <span class="nav-text">
+        WebServices
+      </span>
     </v-btn>
     <CreateInstance v-if="$store.getters['app/selectedInstance']" />
   </v-app-bar>
@@ -42,3 +46,24 @@ import CreateInstance from "@/components/SakaiInstance/CreteInstance.vue";
 })
 export default class extends Vue {}
 </script>
+<style lang="scss">
+.active-nav{
+  .v-btn__content{
+    .nav-text{
+      color: #fff !important;
+      font-weight: 600;
+      border-bottom: 1px solid white;
+    }
+  }
+  // ::before{
+  //   opacity: 0 !important ;
+  // }
+}
+.active-nav.theme--dark.v-btn--active::before{
+  opacity: 0 !important;
+}
+.nav-text{
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+</style>
