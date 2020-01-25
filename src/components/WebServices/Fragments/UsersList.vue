@@ -29,7 +29,9 @@
         </v-btn>
       </v-card-title>
       <v-card-text class="pt-5 pb-3">
-        {{aux}}
+        <v-data-table>
+          
+        </v-data-table>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -39,7 +41,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
-import WebServiceManager from '@/functions/WsManager';
+import WebServiceManager, { userResponse } from '@/functions/WsManager';
 
 @Component({})
 export default class AddNewUser extends Vue {
@@ -48,12 +50,10 @@ export default class AddNewUser extends Vue {
   @Prop()
   sessionId!: String
 
-  aux: any = {}
+  list: Array<userResponse> = []
 
   async getAllUsers(){
-    let aux = await WebServiceManager.getAllUsers({sessionid: this.sessionId}, this.$store.state.app.baseURL)
-    console.log(aux);
-    this.aux = aux
+    this.list = await WebServiceManager.getAllUsers({sessionid: this.sessionId}, this.$store.state.app.baseURL)
   }
 
   reset(){

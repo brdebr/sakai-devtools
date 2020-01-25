@@ -16,6 +16,13 @@ export interface addUserParams {
   password: String;
 }
 
+export interface userResponse {
+  displayName: String
+  eid: String
+  type: String | null,
+  userId: String
+}
+
 const convert = require("xml-js");
 const axios = require("axios");
 const restEndpoint = "/sakai-ws/rest";
@@ -46,7 +53,7 @@ export default class WebServiceManager {
   static async getAllUsers(
     params: sakaiParam,
     baseURL: String
-  ): Promise<any> {
+  ): Promise<Array<userResponse>> {
     let endpoint = "/sakai/getAllUsers";
     let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
       headers,
@@ -56,19 +63,16 @@ export default class WebServiceManager {
       ignoreComment: true,
       alwaysChildren: true
     });
-      // array de 8
-    let arrayList =  result.elements[0].elements.map((el:any) => {
+    let arrayList = result.elements[0].elements.map((el:any) => {
       let aux = el.elements.map((el:any) => {
         return {
           [el.name]: el.elements[0] ? el.elements[0].text : null
         }
-      }) // item
-      //aux = arry de 4 prop y valor
+      })
       return aux.reduce((acc:any, val:any) => {
         return {...acc,...val}
       },{})
     })
-    
     return arrayList;
   }
   static async addNewUser(
