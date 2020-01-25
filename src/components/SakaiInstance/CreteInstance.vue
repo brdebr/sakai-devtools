@@ -3,6 +3,7 @@
     v-model="dialog"
     max-width="80%"
     transition="slide-y-transition"
+    overlay-color="rgb(138, 138, 138)"
   >
     <template #activator="{ on }">
       <v-btn

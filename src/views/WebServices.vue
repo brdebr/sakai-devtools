@@ -2,15 +2,16 @@
   <v-card
     dark
     class="blue darken-2 mx-auto overflow-hidden"
-    min-width="100%"
     min-height="500px"
+    min-width="100%"
+    max-height="655px"
   >
     <v-card-title class="elevation-2 blue darken-3 pt-3">
       WebServices
     </v-card-title>
-    <v-card-text class="pt-5 pb-3">
+    <v-card-text class="pt-5 pb-3" style="height: -webkit-fill-available">
       <transition :name="`move-x${!sessionId ? '-reverse' : ''}`" mode="out-in">
-        <v-container class="pa-0 ma-0" v-if="sessionId" key="in">
+        <v-container class="pa-0 ma-0 fill-height" fluid v-if="sessionId" key="in">
           <v-row no-gutters wrap align="center" >
             <v-col no-gutters>
               <v-row no-gutters>

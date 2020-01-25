@@ -1,5 +1,11 @@
 <template>
-  <v-dialog v-model="dialog" max-width="680px" scrollable>
+  <v-dialog
+    v-model="dialog"
+    max-width="680px"
+    scrollable
+    transition="slide-y-transition"
+    overlay-color="rgb(138, 138, 138)"
+  >
     <template #activator="{ on }">
       <v-btn
         light
@@ -129,7 +135,12 @@
       </v-card-text>
       <v-divider />
       <v-card-actions>
-        <v-btn class="ml-auto mr-4" depressed :loading="loading" @click="saveSite">
+        <v-btn
+          class="ml-auto mr-4"
+          depressed
+          :loading="loading"
+          @click="saveSite"
+        >
           Create
         </v-btn>
       </v-card-actions>

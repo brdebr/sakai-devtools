@@ -1,6 +1,7 @@
 <template>
   <v-navigation-drawer
     :mini-variant="$store.state.layout.drawerMini"
+    mini-variant-width="80"
     :value="$store.state.layout.drawer"
     clipped
     :mobile-break-point="950"

@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="dialog" max-width="680px">
+  <v-dialog
+    v-model="dialog"
+    max-width="680px"
+    overlay-color="rgb(138, 138, 138)"
+    transition="slide-y-transition"
+  >
     <template #activator="{ on }">
       <v-btn
         light
@@ -71,7 +76,12 @@
       </v-card-text>
       <v-divider />
       <v-card-actions>
-        <v-btn class="ml-auto mr-4" depressed @click="saveUser" :loading="loading">
+        <v-btn
+          class="ml-auto mr-4"
+          depressed
+          @click="saveUser"
+          :loading="loading"
+        >
           Create
         </v-btn>
       </v-card-actions>
@@ -84,7 +94,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
 import WebServiceManager from "@/functions/WsManager";
-import { addUserParams } from '@/models/WsInterfaces';
+import { addUserParams } from "@/models/WsInterfaces";
 
 var faker = require("faker");
 
@@ -100,37 +110,41 @@ export default class AddNewUser extends Vue {
     password: "sakai"
   };
   @Prop()
-  sessionId!: String
+  sessionId!: String;
 
   @Watch("dialog")
   refreshFakes(newVal: Boolean, oldVal: Boolean) {
-      if(newVal){
-          this.params = {
-            eid: faker.internet.userName(),
-            firstname: faker.name.firstName(),
-            lastname: faker.name.lastName(),
-            email: faker.internet.email().replace('.com','-mock.com'),
-            password: "sakai"
-          };
-      }
+    if (newVal) {
+      this.params = {
+        eid: faker.internet.userName(),
+        firstname: faker.name.firstName(),
+        lastname: faker.name.lastName(),
+        email: faker.internet.email().replace(".com", "-mock.com"),
+        password: "sakai"
+      };
+    }
   }
 
-  async saveUser(){
-      this.loading = true
-      try {
-          let aux = await WebServiceManager.addNewUser(this.params, this.$store.state.app.baseURL, this.sessionId)
-          this.dialog = false
-      } catch (error) {
-          console.warn('WebServiceManager.addNewUser');
-          console.log(error);
-      }
-      this.loading = false
+  async saveUser() {
+    this.loading = true;
+    try {
+      let aux = await WebServiceManager.addNewUser(
+        this.params,
+        this.$store.state.app.baseURL,
+        this.sessionId
+      );
+      this.dialog = false;
+    } catch (error) {
+      console.warn("WebServiceManager.addNewUser");
+      console.log(error);
+    }
+    this.loading = false;
   }
 
-  resetForm(){
-      // @ts-ignore
-      this.$refs.form.reset()
-      this.loading = false
+  resetForm() {
+    // @ts-ignore
+    this.$refs.form.reset();
+    this.loading = false;
   }
 }
 </script>

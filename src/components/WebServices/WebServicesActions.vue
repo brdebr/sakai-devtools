@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-0 mx-0 pt-2 pb-0">
+  <v-container class="pa-0 mx-0 pt-2 pb-0" fluid>
     <v-divider class="my-3"/>
     <v-row no-gutters>
       <v-col no-gutters class="mx-auto flex-grow-0">

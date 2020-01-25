@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="dialog" max-width="80%" overlay-color="rgb(138, 138, 138)">
+  <v-dialog
+    v-model="dialog"
+    max-width="80%"
+    overlay-color="rgb(138, 138, 138)"
+    transition="slide-y-transition"
+  >
     <template #activator="{ on }">
       <v-btn
         light
@@ -15,12 +20,7 @@
       <v-card-title class="elevation-2 indigo darken-4 py-3">
         <span> Users List </span>
         <v-spacer />
-        <v-btn icon outlined class="mr-3">
-          <v-icon small @click="getAllUsers">
-            far fa-trash-alt
-          </v-icon>
-        </v-btn>
-        <v-btn icon outlined>
+        <v-btn icon outlined @click="getAllUsers">
           <v-icon small>
             fas fa-redo
           </v-icon>
@@ -28,7 +28,12 @@
       </v-card-title>
       <v-data-table :items="list" :headers="headers" item-key="userId">
         <template #item.userId="{ item }">
-          <v-btn icon outlined :title="`Click to copy [ ${item.userId} ]`" @click="copyToClipbd(item.userId)">
+          <v-btn
+            icon
+            outlined
+            :title="`Click to copy [ ${item.userId} ]`"
+            @click="copyToClipbd(item.userId)"
+          >
             <v-icon small>
               far fa-clipboard
             </v-icon>
@@ -36,7 +41,7 @@
         </template>
         <template #item.type="{ item }">
           <span>
-            {{item.type || '- - - -'}}
+            {{ item.type || "- - - -" }}
           </span>
         </template>
       </v-data-table>
@@ -49,8 +54,8 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
 import WebServiceManager from "@/functions/WsManager";
-import { userResponse } from '@/models/WsInterfaces';
-const { clipboard } = require('electron')
+import { userResponse } from "@/models/WsInterfaces";
+const { clipboard } = require("electron");
 
 @Component({})
 export default class UsersList extends Vue {
@@ -77,8 +82,8 @@ export default class UsersList extends Vue {
     }
   }
 
-  copyToClipbd(val: string){
-    clipboard.writeText(val)
+  copyToClipbd(val: string) {
+    clipboard.writeText(val);
   }
 
   reset() {
