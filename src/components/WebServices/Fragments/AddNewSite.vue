@@ -22,7 +22,7 @@
             far fa-trash-alt
           </v-icon>
         </v-btn>
-        <v-btn icon outlined>
+        <v-btn icon outlined @click="refreshFakes">
           <v-icon small>
             fas fa-redo
           </v-icon>
@@ -42,7 +42,7 @@
           </v-row>
           <v-row no-gutters>
             <v-col no-gutters>
-              <v-text-field
+              <v-textarea
                 outlined
                 label="Description"
                 v-model="params.description"
@@ -125,6 +125,10 @@ import WebServiceManager from "@/functions/WsManager";
 import { siteParams } from "@/models/WsInterfaces";
 
 var faker = require("faker");
+const capitalize = (s: string) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
 
 @Component({})
 export default class AddNewSite extends Vue {
@@ -147,13 +151,25 @@ export default class AddNewSite extends Vue {
   @Prop()
   sessionId!: String;
 
-  // @Watch("dialog")
-  // refreshFakes(newVal: Boolean, oldVal: Boolean) {
-  //     if(newVal){
-  //         this.params = {
-  //         };
-  //     }
-  // }
+  @Watch("dialog")
+  refreshFakes(newVal: Boolean, oldVal: Boolean) {
+      if(newVal){
+          this.params = {
+            siteid: capitalize(faker.random.words()),
+            title: faker.company.catchPhrase(),
+            description: faker.lorem.sentences(),
+            shortdesc: faker.lorem.slug(),
+            iconurl: faker.internet.avatar(),
+            infourl: faker.internet.url(),
+            joinable: false,
+            joinerrole: "access",
+            published: false,
+            publicview: false,
+            skin: "",
+            type: "project"
+          }
+      }
+  }
 
   resetForm() {
     // @ts-ignore
