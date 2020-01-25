@@ -44,5 +44,5 @@ export interface userResponse {
 
 export interface getAllSitesForCurrentUserResponse {
   siteId: String,
-  siteTiTle: String
+  siteTitle: String
 }

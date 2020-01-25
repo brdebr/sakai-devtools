@@ -123,8 +123,6 @@ export default class WebServiceManager {
       return aux;
     });
 
-    console.log(list);
-
-    return [];
+    return list;
   }
 }

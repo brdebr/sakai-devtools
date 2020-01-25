@@ -60,8 +60,13 @@ export default class WebServicesPage extends Vue {
     this.sessionId = sessionId;
   }
   async logOut() {
-    let aux = await WebServiceManager.logout({sessionid: this.sessionId}, this.$store.state.app.baseURL)
-    console.log(`Logged out : ${aux}`);
+    try {
+      let aux = await WebServiceManager.logout({sessionid: this.sessionId}, this.$store.state.app.baseURL)
+      console.log(`Logged out : ${aux}`);
+    } catch (error) {
+      console.warn("WebServiceManager.logout");
+      console.log(error);
+    }
     this.sessionId = "";
   }
 }

@@ -9,17 +9,17 @@
       </v-col>
     </v-row>
     <v-divider class="my-3"/>
-    <v-row no-gutters>
-      <v-col no-gutters class="mx-auto flex-grow-0">
+    <v-row style="justify-content: space-evenly;" no-gutters>
+      <v-col no-gutters class="flex-grow-0">
           <AddNewUser :session-id="sessionId"/>
       </v-col>
-      <v-col no-gutters class="mx-auto flex-grow-0">
+      <v-col no-gutters class="flex-grow-0">
           <UsersList :session-id="sessionId"/>
       </v-col>
     </v-row>
     <v-divider class="my-3"/>
-    <v-row no-gutters>
-      <v-col no-gutters class="mx-auto flex-grow-0">
+    <v-row style="justify-content: space-evenly;" no-gutters>
+      <v-col no-gutters class="flex-grow-0">
           <AddNewSite :session-id="sessionId"/>
       </v-col>
     </v-row>

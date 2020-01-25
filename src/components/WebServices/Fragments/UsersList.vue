@@ -4,6 +4,7 @@
     max-width="80%"
     overlay-color="rgb(138, 138, 138)"
     transition="slide-y-transition"
+    scrollable
   >
     <template #activator="{ on }">
       <v-btn
@@ -26,25 +27,27 @@
           </v-icon>
         </v-btn>
       </v-card-title>
-      <v-data-table :items="list" :headers="headers" item-key="userId">
-        <template #item.userId="{ item }">
-          <v-btn
-            icon
-            outlined
-            :title="`Click to copy [ ${item.userId} ]`"
-            @click="copyToClipbd(item.userId)"
-          >
-            <v-icon small>
-              far fa-clipboard
-            </v-icon>
-          </v-btn>
-        </template>
-        <template #item.type="{ item }">
-          <span>
-            {{ item.type || "- - - -" }}
-          </span>
-        </template>
-      </v-data-table>
+      <v-card-text class="pa-0 ma-0">
+        <v-data-table :items="list" :headers="headers" item-key="userId">
+          <template #item.userId="{ item }">
+            <v-btn
+              icon
+              outlined
+              :title="`Click to copy [ ${item.userId} ]`"
+              @click="copyToClipbd(item.userId)"
+            >
+              <v-icon small>
+                far fa-clipboard
+              </v-icon>
+            </v-btn>
+          </template>
+          <template #item.type="{ item }">
+            <span>
+              {{ item.type || "- - - -" }}
+            </span>
+          </template>
+        </v-data-table>
+      </v-card-text>
     </v-card>
   </v-dialog>
 </template>
