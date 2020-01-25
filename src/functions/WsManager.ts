@@ -1,5 +1,6 @@
-import { siteParams } from '../models/WsInterfaces';
 import {
+  siteParams,
+  getAllSitesForCurrentUserResponse,
   addUserParams,
   LoginParams,
   sessionIdParam,
@@ -16,6 +17,18 @@ const headers = {
 export default class WebServiceManager {
   static async login(params: LoginParams, baseURL: String): Promise<String> {
     let endpoint = "/login/login";
+    let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
+      headers,
+      params
+    });
+    return data;
+  }
+
+  static async logout(
+    params: sessionIdParam,
+    baseURL: String
+  ): Promise<String> {
+    let endpoint = "/login/logout";
     let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
       headers,
       params

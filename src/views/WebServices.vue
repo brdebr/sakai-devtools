@@ -46,6 +46,7 @@ import WebServicesActions from "@/components/WebServices/WebServicesActions.vue"
 
 import LoginForm from "@/components/WebServices/LoginForm.vue";
 import { LoginParams } from '@/models/WsInterfaces';
+import WebServiceManager from '../functions/WsManager';
 
 @Component({
   components: {
@@ -58,7 +59,9 @@ export default class WebServicesPage extends Vue {
   logged(sessionId: String) {
     this.sessionId = sessionId;
   }
-  logOut() {
+  async logOut() {
+    let aux = await WebServiceManager.logout({sessionid: this.sessionId}, this.$store.state.app.baseURL)
+    console.log(`Logged out : ${aux}`);
     this.sessionId = "";
   }
 }
