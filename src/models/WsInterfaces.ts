@@ -41,3 +41,8 @@ export interface userResponse {
   type: String | null;
   userId: String;
 }
+
+export interface getAllSitesForCurrentUserResponse {
+  siteId: String,
+  siteTiTle: String
+}

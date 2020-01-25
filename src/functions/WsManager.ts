@@ -98,4 +98,33 @@ export default class WebServiceManager {
     });
     return data;
   }
+
+  static async getAllSitesForCurrentUser(
+    params: sessionIdParam,
+    baseURL: String
+  ): Promise<Array<getAllSitesForCurrentUserResponse>> {
+    let endpoint = "/sakai/getAllSitesForCurrentUser";
+    let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
+      headers,
+      params
+    });
+
+    var result = convert.xml2js(data, {
+      ignoreComment: true,
+      compact: true,
+      alwaysChildren: true
+    });
+
+    let list = result.list.item.map((el: any) => {
+      let aux: { [index: string]: any } = {};
+      for (const key in el) {
+        aux[key] = el[key]._text ? el[key]._text : null;
+      }
+      return aux;
+    });
+
+    console.log(list);
+
+    return [];
+  }
 }
