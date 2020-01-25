@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="80%">
+  <v-dialog v-model="dialog" max-width="80%" overlay-color="rgb(138, 138, 138)">
     <template #activator="{ on }">
       <v-btn
         light
@@ -11,7 +11,7 @@
         Users List
       </v-btn>
     </template>
-    <v-card dark class="indigo darken-3" :loading="loading">
+    <v-card dark :loading="loading">
       <v-card-title class="elevation-2 indigo darken-4 py-3">
         <span> Users List </span>
         <v-spacer />
