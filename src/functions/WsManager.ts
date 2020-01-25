@@ -16,6 +16,7 @@ export interface addUserParams {
   password: String;
 }
 
+const convert = require("xml-js");
 const axios = require("axios");
 const restEndpoint = "/sakai-ws/rest";
 const headers = {
@@ -41,6 +42,23 @@ export default class WebServiceManager {
       params
     });
     return data;
+  }
+  static async getAllUsers(
+    params: sakaiParam,
+    baseURL: String
+  ): Promise<any> {
+    let endpoint = "/sakai/getAllUsers";
+    let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
+      headers,
+      params
+    });
+    var result = convert.xml2js(data, {
+      ignoreComment: true,
+      alwaysChildren: true
+    });
+    let arrayList =  result.elements[0].elements
+    
+    return result;
   }
   static async addNewUser(
     params: addUserParams,
