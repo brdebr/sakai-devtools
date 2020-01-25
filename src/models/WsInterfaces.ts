@@ -1,3 +1,6 @@
+
+// Params
+
 export interface LoginParams {
   id: String;
   pw: String;
@@ -16,6 +19,22 @@ export interface addUserParams {
   password: String;
 }
 
+export interface siteParams {
+  siteid: String;
+  title: String;
+  description: String;
+  shortdesc: String;
+  iconurl: String;
+  infourl: String;
+  joinable: boolean;
+  joinerrole: String;
+  published: boolean;
+  publicview: boolean;
+  skin: String;
+  type: "project" | "course";
+}
+
+// Responses
 export interface userResponse {
   displayName: String;
   eid: String;

@@ -1,4 +1,10 @@
-import { LoginParams, userResponse, addUserParams, sakaiParam } from '@/models/WsInterfaces';
+import { siteParams } from '../models/WsInterfaces';
+import {
+  addUserParams,
+  LoginParams,
+  sakaiParam,
+  userResponse
+} from "@/models/WsInterfaces";
 
 const convert = require("xml-js");
 const axios = require("axios");
@@ -16,6 +22,7 @@ export default class WebServiceManager {
     });
     return data;
   }
+
   static async resetAllUserWorkspace(
     params: sakaiParam,
     baseURL: String
@@ -27,6 +34,7 @@ export default class WebServiceManager {
     });
     return data;
   }
+
   static async getAllUsers(
     params: sakaiParam,
     baseURL: String
@@ -43,16 +51,30 @@ export default class WebServiceManager {
     });
 
     let list = result.list.item.map((el: any) => {
-      let aux: {[index: string]:any} = {}
+      let aux: { [index: string]: any } = {};
       for (const key in el) {
-        aux[key] = el[key]._text ? el[key]._text : null
+        aux[key] = el[key]._text ? el[key]._text : null;
       }
-      return aux
-    })
-    return list
+      return aux;
+    });
+    return list;
   }
+
   static async addNewUser(
     params: addUserParams,
+    baseURL: String,
+    sessionid: String
+  ): Promise<String> {
+    let endpoint = "/sakai/addNewUser";
+    let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
+      headers,
+      params: { sessionid, ...params }
+    });
+    return data;
+  }
+
+  static async addNewSite(
+    params: siteParams,
     baseURL: String,
     sessionid: String
   ): Promise<String> {
