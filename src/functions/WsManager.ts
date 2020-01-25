@@ -78,7 +78,7 @@ export default class WebServiceManager {
     baseURL: String,
     sessionid: String
   ): Promise<String> {
-    let endpoint = "/sakai/addNewUser";
+    let endpoint = "/sakai/addNewSite";
     let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
       headers,
       params: { sessionid, ...params }

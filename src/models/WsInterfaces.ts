@@ -20,7 +20,7 @@ export interface addUserParams {
 }
 
 export interface siteParams {
-  siteid: String;
+  siteid: String | undefined;
   title: String;
   description: String;
   shortdesc: String;
