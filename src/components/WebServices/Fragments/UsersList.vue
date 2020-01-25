@@ -13,7 +13,7 @@
     </template>
     <v-card dark class="indigo darken-3" :loading="loading">
       <v-card-title class="elevation-2 indigo darken-4 py-3">
-        <span> Users List {{ list.length }} </span>
+        <span> Users List </span>
         <v-spacer />
         <v-btn icon outlined class="mr-3">
           <v-icon small @click="getAllUsers">
@@ -28,7 +28,7 @@
       </v-card-title>
       <v-data-table :items="list" :headers="headers" item-key="userId">
         <template #item.userId="{ item }">
-          <v-btn icon outlined :title="`Click to copy [ ${item.userId} ]`">
+          <v-btn icon outlined :title="`Click to copy [ ${item.userId} ]`" @click="copyToClipbd(item.userId)">
             <v-icon small>
               far fa-clipboard
             </v-icon>
@@ -49,6 +49,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
 import WebServiceManager, { userResponse } from "@/functions/WsManager";
+const { clipboard } = require('electron')
 
 @Component({})
 export default class UsersList extends Vue {
@@ -73,6 +74,10 @@ export default class UsersList extends Vue {
         this.$store.state.app.baseURL
       );
     }
+  }
+
+  copyToClipbd(val: string){
+    clipboard.writeText(val)
   }
 
   reset() {
