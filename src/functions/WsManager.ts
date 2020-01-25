@@ -63,6 +63,13 @@ export default class WebServiceManager {
       ignoreComment: true,
       alwaysChildren: true
     });
+    var result2 = convert.xml2js(data, {
+      ignoreComment: true,
+      compact: true,
+      alwaysChildren: true
+    });
+    console.log(result2);
+
     let arrayList = result.elements[0].elements.map((el:any) => {
       let aux = el.elements.map((el:any) => {
         return {
