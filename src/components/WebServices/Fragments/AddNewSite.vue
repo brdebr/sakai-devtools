@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="680px">
+  <v-dialog v-model="dialog" max-width="680px" scrollable>
     <template #activator="{ on }">
       <v-btn
         light
@@ -22,7 +22,7 @@
             far fa-trash-alt
           </v-icon>
         </v-btn>
-        <v-btn icon outlined >
+        <v-btn icon outlined>
           <v-icon small>
             fas fa-redo
           </v-icon>
@@ -42,46 +42,67 @@
           </v-row>
           <v-row no-gutters>
             <v-col no-gutters>
-              <v-text-field outlined label="Description" v-model="params.description" />
+              <v-text-field
+                outlined
+                label="Description"
+                v-model="params.description"
+              />
             </v-col>
           </v-row>
           <v-row no-gutters>
             <v-col no-gutters>
-              <v-text-field outlined label="Short description" v-model="params.shortdesc" />
+              <v-text-field
+                outlined
+                label="Short description"
+                v-model="params.shortdesc"
+              />
             </v-col>
           </v-row>
           <v-row no-gutters>
             <v-col no-gutters>
-              <v-text-field outlined label="Icon URL" v-model="params.iconurl" />
+              <v-text-field
+                outlined
+                label="Icon URL"
+                v-model="params.iconurl"
+              />
             </v-col>
           </v-row>
           <v-row no-gutters>
             <v-col no-gutters>
-              <v-text-field outlined label="Info URL" v-model="params.infourl" />
+              <v-text-field
+                outlined
+                label="Info URL"
+                v-model="params.infourl"
+              />
             </v-col>
           </v-row>
-          <v-row no-gutters>
+          <v-row no-gutters align="center">
+            <v-col no-gutters cols="6" class="pl-1">
+              <v-checkbox class="py-0 my-2" label="Joinable" hide-details v-model="params.joinable" />
+            </v-col>
             <v-col no-gutters cols="6">
-              <v-checkbox label="Joinable" v-model="params.joinable" />
+              <v-text-field outlined label="Role" hide-details v-model="params.joinerrole" />
+            </v-col>
+          </v-row>
+          <v-row no-gutters align="center" class="my-7">
+            <v-col no-gutters class="pl-1">
+              <v-checkbox class="py-0 my-2" label="Published" hide-details v-model="params.published" />
             </v-col>
             <v-col no-gutters>
-              <v-text-field outlined label="Role" v-model="params.joinerrole" />
+              <v-checkbox class="py-0 my-2" label="Public" hide-details v-model="params.publicview" />
             </v-col>
           </v-row>
           <v-row no-gutters>
-            <v-col no-gutters>
-              <v-checkbox label="Published" v-model="params.published" />
-            </v-col>
-            <v-col no-gutters>
-              <v-checkbox label="Public" v-model="params.publicview" />
-            </v-col>
-          </v-row>
-          <v-row no-gutters>
-            <v-col no-gutters>
+            <v-col no-gutters cols="6" class="pr-5">
               <v-text-field outlined label="Skin" v-model="params.skin" />
             </v-col>
-            <v-col no-gutters>
-              <v-select :items="['project','course']" outlined label="type" v-model="params.type" />
+            <v-col no-gutters cols="6">
+              <v-select
+                :items="['project', 'course']"
+                outlined
+                label="type"
+                v-model="params.type"
+              />
             </v-col>
           </v-row>
         </v-form>
@@ -101,7 +122,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
 import WebServiceManager from "@/functions/WsManager";
-import { siteParams } from '@/models/WsInterfaces';
+import { siteParams } from "@/models/WsInterfaces";
 
 var faker = require("faker");
 
@@ -110,14 +131,21 @@ export default class AddNewSite extends Vue {
   dialog = false;
   loading = false;
   params: siteParams = {
-    eid: "",
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "sakai"
+    siteid: "",
+    title: "",
+    description: "",
+    shortdesc: "",
+    iconurl: "",
+    infourl: "",
+    joinable: false,
+    joinerrole: "",
+    published: false,
+    publicview: false,
+    skin: "",
+    type: "project"
   };
   @Prop()
-  sessionId!: String
+  sessionId!: String;
 
   // @Watch("dialog")
   // refreshFakes(newVal: Boolean, oldVal: Boolean) {
@@ -127,10 +155,10 @@ export default class AddNewSite extends Vue {
   //     }
   // }
 
-  resetForm(){
-      // @ts-ignore
-      this.$refs.form.reset()
-      this.loading = false
+  resetForm() {
+    // @ts-ignore
+    this.$refs.form.reset();
+    this.loading = false;
   }
 }
 </script>
