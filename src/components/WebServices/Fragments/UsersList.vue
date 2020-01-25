@@ -48,7 +48,8 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
-import WebServiceManager, { userResponse } from "@/functions/WsManager";
+import WebServiceManager from "@/functions/WsManager";
+import { userResponse } from '@/models/WsInterfaces';
 const { clipboard } = require('electron')
 
 @Component({})

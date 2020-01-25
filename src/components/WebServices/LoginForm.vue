@@ -41,7 +41,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
-import { LoginParams } from "@/functions/WsManager";
+import { LoginParams } from '@/models/WsInterfaces';
 import WebServiceManager from "@/functions//WsManager";
 
 @Component({})

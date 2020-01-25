@@ -83,7 +83,8 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
-import WebServiceManager, { addUserParams } from "@/functions/WsManager";
+import WebServiceManager from "@/functions/WsManager";
+import { addUserParams } from '@/models/WsInterfaces';
 
 var faker = require("faker");
 

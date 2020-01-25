@@ -44,7 +44,7 @@ import { Prop } from "vue-property-decorator";
 import WebServicesActions from "@/components/WebServices/WebServicesActions.vue"
 
 import LoginForm from "@/components/WebServices/LoginForm.vue";
-import { LoginParams } from "@/functions/WsManager";
+import { LoginParams } from '@/models/WsInterfaces';
 
 @Component({
   components: {
