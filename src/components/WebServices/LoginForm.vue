@@ -1,8 +1,23 @@
 <template>
   <v-container class="fill-height">
     <v-row justify="center">
+      <v-col cols="8">
+        <v-text-field
+          outlined
+          label="Host address"
+          hide-details
+          v-model="baseURL"
+        />
+      </v-col>
+    </v-row>
+    <v-row justify="center">
       <v-col class="flex-grow-0">
-        <v-card color="blue darken-3" outlined :loading="loading" min-width="500px">
+        <v-card
+          color="blue darken-3"
+          outlined
+          :loading="loading"
+          min-width="500px"
+        >
           <v-card-title class="elevation-2 blue darken-4">
             Login form
           </v-card-title>
@@ -10,6 +25,7 @@
             <v-card-text class="pt-6 pb-1">
               <v-row no-gutters wrap>
                 <v-col no-gutters cols="12">
+                  <!-- TODO: Will be a list of saved params, stored at the json -->
                   <v-text-field
                     outlined
                     label="User ID"
@@ -57,11 +73,15 @@ export default class LoginForm extends Vue {
     id: "admin",
     pw: "admin"
   };
+
+  baseURL: String = this.$store.state.app.baseURL;
+
   async login() {
     // @ts-ignore
     if (!this.$refs["form"].validate()) {
       return;
     }
+    this.$store.commit("app/setBaseURL", this.baseURL);
     try {
       let sessionId = await WebServiceManager.login(
         this.loginParams,
