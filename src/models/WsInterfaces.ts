@@ -18,6 +18,11 @@ export interface addUserParams {
   password: String;
 }
 
+export interface getUserPropertyParams {
+  eid: String;
+  propertyName: String;
+}
+
 export interface setUserPropertyParams {
   eid: String;
   key: String;
@@ -52,4 +57,8 @@ export interface getAllSitesForCurrentUserResponse {
   siteTitle: String;
   siteType?: String;
   siteGroups?: Number;
+}
+
+export interface getUserPropertyResponse {
+  value: String
 }

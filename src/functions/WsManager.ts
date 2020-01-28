@@ -5,7 +5,9 @@ import {
   LoginParams,
   sessionIdParam,
   userResponse,
-  setUserPropertyParams
+  setUserPropertyParams,
+  getUserPropertyResponse,
+  getUserPropertyParams
 } from "@/models/WsInterfaces";
 
 const convert = require("xml-js");
@@ -80,6 +82,20 @@ export default class WebServiceManager {
     baseURL: String
   ): Promise<String> {
     let endpoint = "/sakai/setUserProperty";
+    let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
+      headers,
+      params: {...params, ...prop}
+    });
+
+    return data;
+  }
+
+  static async getUserProperty(
+    params: sessionIdParam,
+    prop: getUserPropertyParams,
+    baseURL: String
+  ): Promise<getUserPropertyResponse> {
+    let endpoint = "/sakai/getUserProperty";
     let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
       headers,
       params: {...params, ...prop}
