@@ -26,7 +26,7 @@
           >
             Instances
           </span>
-          <v-icon v-else>
+          <v-icon class="ml-3 mr-auto" v-else>
             fas fa-tachometer-alt
           </v-icon>
         </v-list-item>
