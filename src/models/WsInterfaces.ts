@@ -18,6 +18,12 @@ export interface addUserParams {
   password: String;
 }
 
+export interface setUserPropertyParams {
+  eid: String;
+  key: String;
+  value: String;
+}
+
 export interface siteParams {
   siteid: String | undefined;
   title: String;

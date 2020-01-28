@@ -4,7 +4,8 @@ import {
   addUserParams,
   LoginParams,
   sessionIdParam,
-  userResponse
+  userResponse,
+  setUserPropertyParams
 } from "@/models/WsInterfaces";
 
 const convert = require("xml-js");
@@ -71,6 +72,20 @@ export default class WebServiceManager {
       return aux;
     });
     return list;
+  }
+
+  static async setUserProperty(
+    params: sessionIdParam,
+    prop: setUserPropertyParams,
+    baseURL: String
+  ): Promise<String> {
+    let endpoint = "/sakai/setUserProperty";
+    let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
+      headers,
+      params: {...params, ...prop}
+    });
+
+    return data;
   }
 
   static async addNewUser(
