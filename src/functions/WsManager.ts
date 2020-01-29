@@ -103,6 +103,36 @@ export default class WebServiceManager {
 
     return data;
   }
+  
+  static async getAllUserProperties(
+    params: sessionIdParam,
+    eid: String,
+    baseURL: String
+  ): Promise<Object> {
+    let endpoint = "/sakai/getAllUserProperties";
+    let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
+      headers,
+      params: {...params, eid}
+    });
+
+    var result = convert.xml2js(data, {
+      ignoreComment: true,
+      compact: true,
+      alwaysChildren: true
+    });
+
+    let obj = result.list.property.map((el: any) => {
+      let aux: { [index: string]: any } = {};
+      for (const key in el) {
+        aux[key] = el[key]._text ? el[key]._text : null;
+      }
+      return aux;
+    }).reduce((acc: Object, el: Object) => {
+        return {...acc, ...el}
+    },{});
+
+    return obj;
+  }
 
   static async addNewUser(
     params: addUserParams,
