@@ -32,8 +32,23 @@
           </v-icon>
         </v-btn>
       </v-card-title>
+      <v-card-text class="pt-5 pb-8 pa-5 ma-0 overflow-hidden">
+        <v-text-field
+          label="Search..."
+          v-model="search"
+          outlined
+          clearable
+          hide-details
+        />
+      </v-card-text>
+      <v-divider />
       <v-card-text class="pa-0 ma-0">
-        <v-data-table :items="list" :headers="headers" item-key="userId">
+        <v-data-table
+          :items="list"
+          :headers="headers"
+          item-key="userId"
+          :search="search"
+        >
           <template #item.userId="{ item }">
             <v-btn
               icon
@@ -71,6 +86,8 @@ export default class UsersList extends Vue {
   loading = false;
   @Prop()
   sessionId!: String;
+
+  search: String = "";
 
   list: Array<userResponse> = [];
   headers: any = [

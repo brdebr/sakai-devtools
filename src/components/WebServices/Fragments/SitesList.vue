@@ -32,8 +32,23 @@
           </v-icon>
         </v-btn>
       </v-card-title>
+      <v-card-text class="pt-5 pb-8 pa-5 ma-0 overflow-hidden">
+        <v-text-field
+          label="Search..."
+          v-model="search"
+          outlined
+          clearable
+          hide-details
+        />
+      </v-card-text>
+      <v-divider />
       <v-card-text class="pa-0 ma-0">
-        <v-data-table :items="list" :headers="headers" item-key="siteId">
+        <v-data-table
+          :items="list"
+          :headers="headers"
+          :search="search"
+          item-key="siteId"
+        >
           <template #item.siteId="{ item }">
             <v-btn
               icon
@@ -46,9 +61,9 @@
               </v-icon>
             </v-btn>
           </template>
-          <template #item.type="{ item }">
+          <template #item.siteType="{ item }">
             <span>
-              {{ item.type || "- - - -" }}
+              {{ item.siteType || "- - - -" }}
             </span>
           </template>
         </v-data-table>
@@ -76,9 +91,11 @@ export default class SitesList extends Vue {
   headers: any = [
     { text: "ID", value: "siteId", width: "80", align: "center" },
     { text: "Name", value: "siteTitle" },
-    { text: "Type", value: "siteType" },
+    { text: "Type", value: "siteType", align: "center" },
     { text: "# Groups", value: "siteGroups", width: "100", align: "center" }
   ];
+
+  search: String = "";
 
   @Watch("dialog")
   async getAllSites(newVal: Boolean, oldVal: Boolean) {
