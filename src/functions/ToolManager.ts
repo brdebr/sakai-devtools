@@ -7,13 +7,12 @@ const consola = require("consola");
 
 export default class ToolManager {
   static getToolNames(sakaiPath: PathLike): string[] {
-    let directories: string[] = [];
-    fs.readdirSync(sakaiPath, { withFileTypes: true })
+    return fs
+      .readdirSync(sakaiPath, { withFileTypes: true })
       .filter(element => element.isDirectory() && !element.name.startsWith("."))
-      .forEach(file => {
-        directories.push(file.name);
+      .map(file => {
+        return file.name;
       });
-    return directories;
   }
   static getToolXmlObject(location: string, toolName: string): any {
     try {

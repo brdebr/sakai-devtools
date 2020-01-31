@@ -1,16 +1,21 @@
 import { SakaiInstance } from "@/models/SakaiInstance";
 import ToolManager from "@/functions/ToolManager";
-import IpcManager from '@/functions/IpcManager';
+import IpcManager from "@/functions/IpcManager";
 import { VuexModule, Module, Mutation } from "vuex-module-decorators";
-import { ipcRenderer } from 'electron'
 
 @Module({ namespaced: true, name: "app" })
 export default class AppStoreModule extends VuexModule {
-  sakaiInstances: SakaiInstance[] = [];
+  sakaiInstances: Array<SakaiInstance> = new Array(0);
 
   selectedInstanceIndex: number = 0;
 
   get selectedInstance(): SakaiInstance | null {
+    if (
+      (this.sakaiInstances && this.sakaiInstances.length === 0) ||
+      !this.sakaiInstances
+    ) {
+      return null;
+    }
     return this.sakaiInstances[this.selectedInstanceIndex] || null;
   }
 
@@ -29,12 +34,12 @@ export default class AppStoreModule extends VuexModule {
   @Mutation
   addsakaiInstance(val: SakaiInstance) {
     this.sakaiInstances.push(val);
-    IpcManager.persistInstances(this.sakaiInstances)
+    IpcManager.addInstance(val);
   }
 
   @Mutation
-  fetchInstances(){
-    this.sakaiInstances = ipcRenderer.sendSync('getConfig','instances');
+  fetchInstances() {
+    this.sakaiInstances = IpcManager.getInstances();
   }
 
   @Mutation
@@ -45,7 +50,7 @@ export default class AppStoreModule extends VuexModule {
       el => el !== "library"
     );
 
-    IpcManager.persistInstances(this.sakaiInstances)
+    IpcManager.persistInstanceById(id, instance);
   }
 
   @Mutation
@@ -54,14 +59,13 @@ export default class AppStoreModule extends VuexModule {
     let instance = this.sakaiInstances[index];
     instance.path = payload.path;
 
-    IpcManager.persistInstances(this.sakaiInstances)
+    IpcManager.persistInstanceById(payload.id, instance);
   }
 
   @Mutation
-  setBaseURL(val: String){
-    this.baseURL = val
+  setBaseURL(val: String) {
+    this.baseURL = val;
   }
 
-  baseURL: String = "http://localhost:8080"
-
+  baseURL: String = "http://localhost:8080";
 }

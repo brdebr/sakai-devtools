@@ -6,11 +6,7 @@
     overlay-color="rgb(138, 138, 138)"
   >
     <template #activator="{ on }">
-      <v-btn
-        depressed
-        color="green darken-1"
-        v-on="on"
-      >
+      <v-btn depressed color="green darken-1" v-on="on">
         <span class="mr-2">
           Create instance
         </span>
@@ -27,13 +23,10 @@
         <v-form ref="form">
           <v-row no-gutters>
             <v-col col="12">
-
               <v-text-field
                 outlined
                 label="Name"
-                :rules="[
-                v => !!v || 'This is a required field'
-              ]"
+                :rules="[v => !!v || 'This is a required field']"
                 v-model="newInstance.name"
               />
             </v-col>
@@ -44,9 +37,7 @@
                 readonly
                 placeholder="C:\sakai-source\"
                 :value="newInstance.path"
-                :rules="[
-                v => !!v || 'This is a required field'
-              ]"
+                :rules="[v => !!v || 'This is a required field']"
                 append-icon="fas fa-folder mr-2"
                 @click:append.stop="selectPath"
                 @mouseup.stop="selectPath"
@@ -58,12 +49,7 @@
       <v-divider />
       <v-card-actions class="mx-4">
         <v-spacer />
-        <v-btn
-          @click="createInstance"
-          depressed
-          dark
-          color="green darken-1"
-        >
+        <v-btn @click="createInstance" depressed dark color="green darken-1">
           Create
         </v-btn>
       </v-card-actions>
@@ -95,6 +81,8 @@ export default class CreateInstance extends Vue {
     });
     if (dialogPath && dialogPath.length > 0) {
       this.newInstance.path = dialogPath[0];
+      this.newInstance.name =
+        this.newInstance.name || path.basename(dialogPath[0]);
     }
   }
 
@@ -121,5 +109,4 @@ export default class CreateInstance extends Vue {
 }
 </script>
 
-<style>
-</style>
+<style></style>
