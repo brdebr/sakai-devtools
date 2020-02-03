@@ -50,7 +50,7 @@ export default class AppStoreModule extends VuexModule {
       el => el !== "library"
     );
 
-    IpcManager.persistInstanceById(id, instance);
+    IpcManager.persistInstanceProp(id, instance, "tools");
   }
 
   @Mutation
@@ -59,7 +59,7 @@ export default class AppStoreModule extends VuexModule {
     let instance = this.sakaiInstances[index];
     instance.path = payload.path;
 
-    IpcManager.persistInstanceById(payload.id, instance);
+    IpcManager.persistInstanceProp(payload.id, instance, "path");
   }
 
   @Mutation

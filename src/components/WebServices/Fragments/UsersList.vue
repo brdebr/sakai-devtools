@@ -32,7 +32,10 @@
           </v-icon>
         </v-btn>
       </v-card-title>
-      <v-card-text class="pt-5 pb-8 pa-5 ma-0 overflow-hidden">
+      <v-card-text
+        class="pt-5 pb-8 pa-5 ma-0 overflow-hidden"
+        style="min-height: 102px;"
+      >
         <v-text-field
           label="Search..."
           v-model="search"

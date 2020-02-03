@@ -3,6 +3,8 @@ import { ipcRenderer } from "electron";
 import Store from "electron-store";
 
 export default class IpcManager {
+  // Instances
+
   static persistInstances(instances: SakaiInstance[]) {
     ipcRenderer.sendSync("setConfig", {
       key: "instances",
@@ -14,6 +16,18 @@ export default class IpcManager {
     ipcRenderer.sendSync("setConfig", {
       key: `instances.${id}`,
       value: instance
+    });
+  }
+  static persistInstanceProp(
+    id: string,
+    instance: SakaiInstance,
+    property: string
+  ) {
+    instance.id = id;
+    ipcRenderer.sendSync("setConfig", {
+      key: `instances.${id}.${property}`,
+      // @ts-ignore
+      value: instance[property]
     });
   }
   static addInstance(instance: SakaiInstance) {
