@@ -60,5 +60,13 @@ export interface getAllSitesForCurrentUserResponse {
 }
 
 export interface getUserPropertyResponse {
-  value: String
+  value: String;
+}
+
+// Others
+
+export interface UserProperty {
+  key: String;
+  type: "Number" | "Text" | "Date";
+  fakeSelect: String;
 }

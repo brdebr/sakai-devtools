@@ -120,11 +120,16 @@ export default class AddNewUser extends Vue {
   @Watch("dialog")
   refreshFakes(newVal: Boolean, oldVal: Boolean) {
     if (newVal) {
+      let firstname = faker.name.firstName();
+      let lastname = faker.name.lastName();
+
       this.params = {
-        eid: faker.internet.userName(),
-        firstname: faker.name.firstName(),
-        lastname: faker.name.lastName(),
-        email: faker.internet.email().replace(".com", "-mock.com"),
+        eid: faker.internet.userName(firstname, lastname),
+        firstname,
+        lastname,
+        email: faker.internet
+          .email(firstname, lastname)
+          .replace(".com", "-mock.com"),
         password: "sakai"
       };
     }
