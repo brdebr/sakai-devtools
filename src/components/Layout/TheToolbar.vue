@@ -1,11 +1,5 @@
 <template>
-  <v-app-bar
-    clipped-left
-    app
-    dark
-    flat
-    color="blue darken-4"
-  >
+  <v-app-bar clipped-left app dark flat color="blue darken-4">
     <v-btn
       outlined
       fab
@@ -17,16 +11,26 @@
         fas fa-bars
       </v-icon>
     </v-btn>
-    <v-toolbar-title class="ml-3 headline font-weight-bold">
+    <v-toolbar-title class="ml-3 headline font-weight-bold" @click="mytest">
       Sakai DevTools
     </v-toolbar-title>
     <v-spacer />
-    <v-btn to="/" depressed class="mr-4" active-class="v-btn--outlined active-nav">
+    <v-btn
+      to="/"
+      depressed
+      class="mr-4"
+      active-class="v-btn--outlined active-nav"
+    >
       <span class="nav-text">
         Deploy
       </span>
     </v-btn>
-    <v-btn to="/webservices" depressed class="mr-4" active-class="v-btn--outlined active-nav">
+    <v-btn
+      to="/webservices"
+      depressed
+      class="mr-4"
+      active-class="v-btn--outlined active-nav"
+    >
       <span class="nav-text">
         WebServices
       </span>
@@ -44,12 +48,16 @@ import CreateInstance from "@/components/SakaiInstance/CreteInstance.vue";
     CreateInstance
   }
 })
-export default class extends Vue {}
+export default class extends Vue {
+  mytest() {
+    this.$store.dispatch("layout/decr", 2);
+  }
+}
 </script>
 <style lang="scss">
-.active-nav{
-  .v-btn__content{
-    .nav-text{
+.active-nav {
+  .v-btn__content {
+    .nav-text {
       color: #fff !important;
       font-weight: 600;
       border-bottom: 1px solid white;
@@ -59,10 +67,10 @@ export default class extends Vue {}
   //   opacity: 0 !important ;
   // }
 }
-.active-nav.theme--dark.v-btn--active::before{
+.active-nav.theme--dark.v-btn--active::before {
   opacity: 0 !important;
 }
-.nav-text{
+.nav-text {
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
 }

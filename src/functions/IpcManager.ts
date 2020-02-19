@@ -44,6 +44,22 @@ export default class IpcManager {
     return ipcRenderer.sendSync("getConfig", `instances.${id}`);
   }
 
+  // WebServices
+
+  static setBaseUrl(url: string, instanceId: string) {
+    ipcRenderer.sendSync("setConfig", {
+      key: `instances.${instanceId}.ws.BaseURL`,
+      value: url
+    });
+  }
+
+  // static setBaseUrl(url: string, instanceId: string) {
+  //   ipcRenderer.sendSync("setConfig", {
+  //     key: `instances.${instanceId}.ws.BaseURL`,
+  //     value: url
+  //   });
+  // }
+
   // HANDLERS
 
   static getConfigHandler = (configs: Store) => (

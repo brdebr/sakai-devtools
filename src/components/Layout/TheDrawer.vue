@@ -8,18 +8,11 @@
     class="drawer-border"
     fixed
     app
-    @input="(val) => $store.commit('layout/setDrawer', val)"
+    @input="val => $store.commit('layout/setDrawer', val)"
   >
-    <v-layout
-      column
-      justify-space-between
-      fill-height
-    >
+    <v-layout column justify-space-between fill-height>
       <v-list :shaped="!$store.state.layout.drawerMini">
-        <v-list-item
-          class="blue drawer-header"
-          dark
-        >
+        <v-list-item class="blue drawer-header" dark>
           <span
             v-if="!$store.state.layout.drawerMini"
             class="font-weight-bold d-inline-block text-truncate text-center"
@@ -41,7 +34,7 @@
           @click="$store.commit('app/setSelectedInstanceIndex', index)"
         >
           <v-list-item-icon class="ml-3 mr-auto">
-            <v-icon>{{ instance.icon || 'fas fa-hdd' }}</v-icon>
+            <v-icon>{{ instance.icon || "fas fa-hdd" }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content class="ml-4">
             <v-list-item-title>
@@ -51,17 +44,10 @@
         </v-list-item>
       </v-list>
       <v-spacer />
-      <transition
-        name="flip-x"
-        mode="out-in"
-      >
+      <transition name="flip-x" mode="out-in">
         <div
           :key="$store.state.layout.drawerMini"
-          :class="
-            `${
-              $store.state.layout.drawerMini ? 'mx-auto' : 'mx-3'
-            } mb-3`
-          "
+          :class="`${$store.state.layout.drawerMini ? 'mx-auto' : 'mx-3'} mb-3`"
         >
           <v-btn
             :icon="$store.state.layout.drawerMini"
@@ -74,8 +60,8 @@
             <v-icon small>
               {{
                 $store.state.layout.drawerMini
-                  ? 'fas fa-chevron-right'
-                  : 'fas fa-chevron-left'
+                  ? "fas fa-chevron-right"
+                  : "fas fa-chevron-left"
               }}
             </v-icon>
           </v-btn>
