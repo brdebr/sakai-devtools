@@ -1,37 +1,45 @@
 <template>
   <v-container class="pa-0 mx-0 pt-2 pb-0" fluid>
-    <v-divider class="my-3"/>
+    <v-divider class="my-3" />
     <v-row no-gutters>
       <v-col no-gutters class="mx-auto flex-grow-0">
-        <v-btn light color="grey lighten-5" class="font-weight-bold" depressed @click="resetAllUserWorkspace">
+        <v-btn
+          light
+          color="grey lighten-5"
+          class="font-weight-bold"
+          depressed
+          @click="resetAllUserWorkspace"
+        >
           <span class="mr-1">
             Reset All User Workspaces
           </span>
-          <v-icon small right>
-            fas fa-trash-restore-alt
-          </v-icon>
         </v-btn>
       </v-col>
     </v-row>
-    <v-divider class="my-3"/>
+    <v-divider class="my-3" />
     <v-row style="justify-content: space-evenly;" no-gutters>
       <v-col no-gutters class="flex-grow-0">
-          <AddNewUser :session-id="sessionId"/>
+        <AddNewUser :session-id="sessionId" />
       </v-col>
       <v-col no-gutters class="flex-grow-0">
-          <UsersList :session-id="sessionId"/>
+        <UsersList :session-id="sessionId" />
       </v-col>
     </v-row>
-    <v-divider class="my-3"/>
+    <v-divider class="my-3" />
     <v-row style="justify-content: space-evenly;" no-gutters>
       <v-col no-gutters class="flex-grow-0">
-          <AddNewSite :session-id="sessionId"/>
+        <AddNewSite :session-id="sessionId" />
       </v-col>
       <v-col no-gutters class="flex-grow-0">
-          <SitesList :session-id="sessionId"/>
+        <SitesList :session-id="sessionId" />
       </v-col>
     </v-row>
-    <v-divider class="my-3"/>
+    <v-divider class="my-3" />
+    <v-row style="justify-content: space-evenly;" no-gutters>
+      <v-col no-gutters class="flex-grow-0">
+        <GetServerProperty :session-id="sessionId" />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -39,26 +47,31 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop } from "vue-property-decorator";
-import WebServiceManager from '@/functions/WsManager';
-import AddNewUser from '@/components/WebServices/Fragments/AddNewUser.vue';
-import UsersList from '@/components/WebServices/Fragments/UsersList.vue';
-import SitesList from '@/components/WebServices/Fragments/SitesList.vue';
-import AddNewSite from '@/components/WebServices/Fragments/AddNewSite.vue';
+import WebServiceManager from "@/functions/WsManager";
+import AddNewUser from "@/components/WebServices/Fragments/AddNewUser.vue";
+import UsersList from "@/components/WebServices/Fragments/UsersList.vue";
+import SitesList from "@/components/WebServices/Fragments/SitesList.vue";
+import AddNewSite from "@/components/WebServices/Fragments/AddNewSite.vue";
+import GetServerProperty from "@/components/WebServices/Fragments/GetServerProperty.vue";
 
 @Component({
-    components: {
-        AddNewUser,
-        UsersList,
-        AddNewSite,
-        SitesList
-    }
+  components: {
+    AddNewUser,
+    UsersList,
+    AddNewSite,
+    SitesList,
+    GetServerProperty
+  }
 })
 export default class WebServicesActions extends Vue {
   @Prop()
   sessionId!: String;
 
-  async resetAllUserWorkspace(){
-      let resp = await WebServiceManager.resetAllUserWorkspace({sessionid:this.sessionId}, this.$store.state.app.baseURL)
+  async resetAllUserWorkspace() {
+    let resp = await WebServiceManager.resetAllUserWorkspace(
+      { sessionid: this.sessionId },
+      this.$store.state.app.baseURL
+    );
   }
 }
 </script>

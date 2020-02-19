@@ -70,3 +70,21 @@ export interface UserProperty {
   type: "Number" | "Text" | "Date";
   fakeSelect: String;
 }
+
+export interface getServerPropertyParams {
+  propName: String;
+}
+
+export interface getServerPropertyResponse {
+  propName: String;
+}
+
+export interface setServerPropertyParams {
+  propName: String;
+  propType: "boolean" | "string" | "int" | "array";
+  propValue: String;
+}
+
+export interface setServerPropertyResponse {
+  propName: String;
+}

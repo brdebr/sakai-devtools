@@ -7,7 +7,11 @@ import {
   userResponse,
   setUserPropertyParams,
   getUserPropertyResponse,
-  getUserPropertyParams
+  getUserPropertyParams,
+  getServerPropertyParams,
+  getServerPropertyResponse,
+  setServerPropertyParams,
+  setServerPropertyResponse
 } from "@/models/WsInterfaces";
 
 const convert = require("xml-js");
@@ -77,42 +81,42 @@ export default class WebServiceManager {
   }
 
   static async setUserProperty(
-    params: sessionIdParam,
+    sessionId: sessionIdParam,
     prop: setUserPropertyParams,
     baseURL: String
   ): Promise<String> {
     let endpoint = "/sakai/setUserProperty";
     let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
       headers,
-      params: {...params, ...prop}
+      params: { ...sessionId, ...prop }
     });
 
     return data;
   }
 
   static async getUserProperty(
-    params: sessionIdParam,
+    sessionId: sessionIdParam,
     prop: getUserPropertyParams,
     baseURL: String
   ): Promise<getUserPropertyResponse> {
     let endpoint = "/sakai/getUserProperty";
     let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
       headers,
-      params: {...params, ...prop}
+      params: { ...sessionId, ...prop }
     });
 
     return data;
   }
-  
+
   static async getAllUserProperties(
-    params: sessionIdParam,
+    sessionId: sessionIdParam,
     eid: String,
     baseURL: String
   ): Promise<Object> {
     let endpoint = "/sakai/getAllUserProperties";
     let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
       headers,
-      params: {...params, eid}
+      params: { ...sessionId, eid }
     });
 
     var result = convert.xml2js(data, {
@@ -121,15 +125,17 @@ export default class WebServiceManager {
       alwaysChildren: true
     });
 
-    let obj = result.list.property.map((el: any) => {
-      let aux: { [index: string]: any } = {};
-      for (const key in el) {
-        aux[key] = el[key]._text ? el[key]._text : null;
-      }
-      return aux;
-    }).reduce((acc: Object, el: Object) => {
-        return {...acc, ...el}
-    },{});
+    let obj = result.list.property
+      .map((el: any) => {
+        let aux: { [index: string]: any } = {};
+        for (const key in el) {
+          aux[key] = el[key]._text ? el[key]._text : null;
+        }
+        return aux;
+      })
+      .reduce((acc: Object, el: Object) => {
+        return { ...acc, ...el };
+      }, {});
 
     return obj;
   }
@@ -185,5 +191,33 @@ export default class WebServiceManager {
     });
 
     return list;
+  }
+
+  static async getServerProperty(
+    sessionId: sessionIdParam,
+    prop: getServerPropertyParams,
+    baseURL: String
+  ): Promise<String> {
+    let endpoint = "/configuration/getProperty";
+    let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
+      headers,
+      params: { ...sessionId, ...prop }
+    });
+
+    return data;
+  }
+
+  static async setServerProperty(
+    sessionId: sessionIdParam,
+    prop: setServerPropertyParams,
+    baseURL: String
+  ): Promise<String> {
+    let endpoint = "/configuration/setProperty";
+    let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
+      headers,
+      params: { ...sessionId, ...prop }
+    });
+
+    return data;
   }
 }
