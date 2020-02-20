@@ -22,6 +22,7 @@
         "electron-store": "^5.0.0",
         "faker": "^4.1.0",
         "inquirer": "^7.0.0",
+        "properties-reader": "^1.0.0",
         "register-service-worker": "^1.6.2",
         "roboto-fontface": "*",
         "vue": "^2.6.10",
@@ -37,7 +38,7 @@
     "devDependencies": {
         "@vue/cli-plugin-pwa": "^3.10.0",
         "@vue/cli-plugin-typescript": "^3.10.0",
-        "@vue/cli-service": "^3.10.0",
+        "@vue/cli-service": "^4.2.2",
         "electron": "^6.0.0",
         "electron-icon-builder": "^1.0.1",
         "node-sass": "^4.9.0",
@@ -47,7 +48,7 @@
         "vue-cli-plugin-electron-builder": "^1.4.0",
         "vue-cli-plugin-vuetify": "^0.6.1",
         "vue-template-compiler": "^2.6.10",
-        "vuetify-loader": "^1.2.2",
+        "vuetify-loader": "^1.4.3",
         "vuex-module-decorators": "^0.10.1"
     },
     "postcss": {

@@ -39,6 +39,9 @@
       <v-col no-gutters class="flex-grow-0">
         <GetServerProperty :session-id="sessionId" />
       </v-col>
+      <v-col no-gutters class="flex-grow-0">
+        <SetServerProperty :session-id="sessionId" />
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -53,6 +56,7 @@ import UsersList from "@/components/WebServices/Fragments/UsersList.vue";
 import SitesList from "@/components/WebServices/Fragments/SitesList.vue";
 import AddNewSite from "@/components/WebServices/Fragments/AddNewSite.vue";
 import GetServerProperty from "@/components/WebServices/Fragments/GetServerProperty.vue";
+import SetServerProperty from "@/components/WebServices/Fragments/SetServerProperty.vue";
 
 @Component({
   components: {
@@ -60,7 +64,8 @@ import GetServerProperty from "@/components/WebServices/Fragments/GetServerPrope
     UsersList,
     AddNewSite,
     SitesList,
-    GetServerProperty
+    GetServerProperty,
+    SetServerProperty
   }
 })
 export default class WebServicesActions extends Vue {

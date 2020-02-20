@@ -15,47 +15,34 @@
         v-on="on"
       >
         <span class="mr-1">
-          Get Server Property
+          Set Server Property
         </span>
         <v-icon size="14" right>
-          fas fa-cog
+          fas fa-pen-square
         </v-icon>
       </v-btn>
     </template>
     <v-card dark :loading="loading">
       <v-card-title class="elevation-2 indigo darken-4 py-3">
-        <span> Get Server Property </span>
+        <span> Set Server Property </span>
         <v-spacer />
       </v-card-title>
       <v-card-text class="pt-5 pb-1">
         <v-row no-gutters>
           <v-col no-gutters>
-            <v-combobox
+            <v-text-field
               outlined
               label="Property name"
-              hide-no-data
-              clearable
-              v-model="propName"
-              :items="valueList"
+              search-input.sync="propName"
             />
           </v-col>
         </v-row>
         <v-row no-gutters>
-          <v-col no-gutters v-if="propValue.length < 100">
+          <v-col no-gutters>
             <v-text-field
               outlined
               disabled
               label="Property Value"
-              placeholder="..."
-              v-model="propValue"
-            />
-          </v-col>
-          <v-col no-gutters v-else>
-            <v-textarea
-              outlined
-              disabled
-              label="Property Value"
-              placeholder="..."
               v-model="propValue"
             />
           </v-col>
@@ -83,7 +70,7 @@ import { userResponse } from "@/models/WsInterfaces";
 const { clipboard } = require("electron");
 
 @Component({})
-export default class GetServerProperty extends Vue {
+export default class SetServerProperty extends Vue {
   dialog = false;
   loading = false;
   @Prop()
@@ -94,12 +81,6 @@ export default class GetServerProperty extends Vue {
   propName: String = "";
   propValue: String = "";
   placeholder: String = "";
-
-  valueList: Array<String> = [
-    "vendor@org.sakaiproject.db.api.SqlService",
-    "driverClassName@javax.sql.BaseDataSource",
-    "hibernate.dialect"
-  ];
 
   async getServerProperty() {
     this.loading = true;
