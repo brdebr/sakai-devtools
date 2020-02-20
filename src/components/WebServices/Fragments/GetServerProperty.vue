@@ -23,7 +23,10 @@
       </v-btn>
     </template>
     <v-card dark :loading="loading">
-      <v-card-title class="elevation-2 indigo darken-4 py-3">
+      <v-card-title
+        class="elevation-2 indigo darken-4 py-3"
+        @click="getPropoertiesFromFile"
+      >
         <span> Get Server Property </span>
         <v-spacer />
       </v-card-title>
@@ -36,12 +39,12 @@
               hide-no-data
               clearable
               v-model="propName"
-              :items="valueList"
+              :items="propertiesList"
             />
           </v-col>
         </v-row>
         <v-row no-gutters>
-          <v-col no-gutters v-if="propValue.length < 100">
+          <v-col no-gutters v-if="propValue.toString().length < 100">
             <v-text-field
               outlined
               disabled
@@ -80,6 +83,8 @@ import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
 import WebServiceManager from "@/functions/WsManager";
 import { userResponse } from "@/models/WsInterfaces";
+import path from "path";
+var PropertiesReader = require("properties-reader");
 const { clipboard } = require("electron");
 
 @Component({})
@@ -95,11 +100,7 @@ export default class GetServerProperty extends Vue {
   propValue: String = "";
   placeholder: String = "";
 
-  valueList: Array<String> = [
-    "vendor@org.sakaiproject.db.api.SqlService",
-    "driverClassName@javax.sql.BaseDataSource",
-    "hibernate.dialect"
-  ];
+  propertiesList: Array<String> = [];
 
   async getServerProperty() {
     this.loading = true;
@@ -118,6 +119,16 @@ export default class GetServerProperty extends Vue {
       console.log(error);
     }
     this.loading = false;
+  }
+
+  getPropoertiesFromFile() {
+    var propertiesFile = path.join(
+      // @ts-ignore
+      window.process.env.CATALINA_BASE,
+      "sakai/sakai.properties"
+    );
+    var properties = PropertiesReader(propertiesFile);
+    this.propertiesList = Object.keys(properties.getAllProperties()).sort();
   }
 
   copyToClipbd(val: string) {
