@@ -69,6 +69,13 @@
               {{ item.siteType || "- - - -" }}
             </span>
           </template>
+          <template #item.actions="{ item }">
+            <v-btn icon outlined @click="deleteSite(item)">
+              <v-icon x-small>
+                far fa-trash-alt
+              </v-icon>
+            </v-btn>
+          </template>
         </v-data-table>
       </v-card-text>
     </v-card>
@@ -81,7 +88,11 @@ import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
 import WebServiceManager from "@/functions/WsManager";
 import { getAllSitesForCurrentUserResponse } from "@/models/WsInterfaces";
+const edialog = require("electron").remote.dialog;
+import { SiteItemList } from "../../../models/WsInterfaces";
 const { clipboard } = require("electron");
+
+const filteredSites = ["!admin", "citationsAdmin", "mercury", "~admin"];
 
 @Component({})
 export default class SitesList extends Vue {
@@ -90,12 +101,19 @@ export default class SitesList extends Vue {
   @Prop()
   sessionId!: String;
 
-  list: Array<getAllSitesForCurrentUserResponse> = [];
+  list: Array<SiteItemList> = [];
   headers: any = [
     { text: "ID", value: "siteId", width: "80", align: "center" },
     { text: "Name", value: "siteTitle" },
     { text: "Type", value: "siteType", align: "center" },
-    { text: "# Groups", value: "siteGroups", width: "100", align: "center" }
+    { text: "# Groups", value: "siteGroups", width: "100", align: "center" },
+    {
+      text: "",
+      value: "actions",
+      width: "100",
+      align: "center",
+      sortable: false
+    }
   ];
 
   search: String = "";
@@ -105,10 +123,13 @@ export default class SitesList extends Vue {
     if (newVal) {
       this.loading = true;
       try {
-        this.list = await WebServiceManager.getAllSitesForCurrentUser(
+        let auxList = await WebServiceManager.getAllSitesForCurrentUser(
           { sessionid: this.sessionId },
           this.$store.state.app.baseURL
         );
+        this.list = auxList.filter((site: SiteItemList) => {
+          return filteredSites.findIndex(el => site.siteId === el) === -1;
+        });
       } catch (error) {
         console.warn("WebServiceManager.getAllSitesForCurrentUser");
         console.log(error);
@@ -119,6 +140,41 @@ export default class SitesList extends Vue {
 
   copyToClipbd(val: string) {
     clipboard.writeText(val);
+  }
+
+  async deleteSite(item: SiteItemList) {
+    const options = {
+      type: "warning",
+      title: "Confirmation required",
+      message: "Delete this site?",
+      detail: `"${item.siteTitle}"`,
+      buttons: ["Cancel", "I'm sure"],
+      defaultId: 0
+    };
+
+    let { response } = await edialog.showMessageBox(options);
+    if (response) {
+      this.loading = true;
+      try {
+        let response = await WebServiceManager.removeSite(
+          { sessionid: this.sessionId },
+          item.siteId,
+          this.$store.state.app.baseURL
+        );
+        if (response === "success") {
+          this.list.splice(
+            this.list.findIndex(el => el.siteId === item.siteId),
+            1
+          );
+        } else {
+          throw new Error('Response wasn\'t "success"');
+        }
+      } catch (error) {
+        console.warn("WebServiceManager.removeSite");
+        console.log(error);
+      }
+      this.loading = false;
+    }
   }
 
   reset() {

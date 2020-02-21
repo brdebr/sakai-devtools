@@ -13,6 +13,9 @@
           <span class="mr-1">
             Reset All User Workspaces
           </span>
+          <v-icon small right>
+            fas fa-recycle
+          </v-icon>
         </v-btn>
       </v-col>
     </v-row>

@@ -165,11 +165,23 @@ export default class WebServiceManager {
     });
     return data;
   }
+  static async removeSite(
+    sessionId: sessionIdParam,
+    siteid: String,
+    baseURL: String
+  ): Promise<String> {
+    let endpoint = "/sakai/removeSite";
+    let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
+      headers,
+      params: { ...sessionId, siteid }
+    });
+    return data;
+  }
 
   static async getAllSitesForCurrentUser(
     params: sessionIdParam,
     baseURL: String
-  ): Promise<Array<getAllSitesForCurrentUserResponse>> {
+  ): Promise<getAllSitesForCurrentUserResponse> {
     let endpoint = "/sakai/getAllSitesForCurrentUser";
     let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
       headers,

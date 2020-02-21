@@ -52,12 +52,14 @@ export interface userResponse {
   userId: String;
 }
 
-export interface getAllSitesForCurrentUserResponse {
+export interface SiteItemList {
   siteId: String;
   siteTitle: String;
   siteType?: String;
   siteGroups?: Number;
 }
+
+export type getAllSitesForCurrentUserResponse = Array<SiteItemList>;
 
 export interface getUserPropertyResponse {
   value: String;

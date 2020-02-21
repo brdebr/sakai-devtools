@@ -2,8 +2,8 @@ import { VuexModule, Module, Mutation } from "vuex-module-decorators";
 
 @Module({ namespaced: true, name: "layout" })
 export default class LayoutStoreModule extends VuexModule {
-  drawer = true
-  drawerMini = false
+  drawer = true;
+  drawerMini = true;
 
   @Mutation
   toggleDrawer() {
@@ -19,4 +19,3 @@ export default class LayoutStoreModule extends VuexModule {
     this.drawer = val;
   }
 }
-

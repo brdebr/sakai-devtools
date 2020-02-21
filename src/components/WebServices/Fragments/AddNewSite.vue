@@ -162,6 +162,10 @@ import { siteParams } from "@/models/WsInterfaces";
 
 var faker = require("faker");
 
+function randomImage(): String {
+  return `https://picsum.photos/seed/${faker.lorem.slug()}/200`;
+}
+
 @Component({})
 export default class AddNewSite extends Vue {
   dialog = false;
@@ -191,7 +195,7 @@ export default class AddNewSite extends Vue {
         title: faker.company.catchPhrase(),
         description: faker.lorem.sentences(),
         shortdesc: faker.lorem.slug(),
-        iconurl: faker.internet.avatar(),
+        iconurl: randomImage(),
         infourl: faker.internet.url(),
         joinable: Math.random() > 0.5,
         joinerrole: "access",
