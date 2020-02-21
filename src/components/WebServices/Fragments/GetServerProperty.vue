@@ -110,11 +110,12 @@ export default class GetServerProperty extends Vue {
         { propName: this.propName },
         this.$store.state.app.baseURL
       );
+      await new Promise(resolve => setTimeout(resolve, 300));
       if (this.propValue === "") {
-        this.propValue = "- - - Blank value / Not found - - -";
+        this.placeholder = "- - - Blank value / Not found - - -";
       }
     } catch (error) {
-      this.propValue = "---Error---";
+      this.placeholder = "- - - Error - - -";
       console.warn("WebServiceManager.getServerProperty");
       console.log(error);
     }

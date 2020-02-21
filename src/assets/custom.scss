@@ -10,7 +10,7 @@ html {
   }
 }
 
-.v-input--selection-controls__ripple{
+.v-input--selection-controls__ripple {
   height: 33px !important;
   width: 33px !important;
   left: -14px !important;
@@ -63,11 +63,11 @@ html {
 ::-webkit-scrollbar {
   width: 10px;
 }
- 
+
 ::-webkit-scrollbar-thumb {
   border-radius: 8px;
   background: rgb(34, 89, 172);
-  &:hover{
+  &:hover {
     background: rgb(18, 91, 201);
   }
 }
@@ -76,8 +76,20 @@ html {
   // margin-top: 2px;
   // margin-bottom: 0px;
   background: #cccccc5b;
-  &:hover{
+  &:hover {
     background: #bcbdff67;
   }
 }
 
+.append-enabled.v-input {
+  .v-input__append-inner {
+    pointer-events: all;
+    cursor: pointer;
+  }
+}
+.centered-append.v-input {
+  .v-input__append-inner {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}

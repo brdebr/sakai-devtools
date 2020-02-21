@@ -53,7 +53,7 @@
         <v-spacer />
         <v-btn :loading="loading" depressed light @click="getServerProperty">
           <span class="subtitle-2">
-            Get
+            Set
           </span>
         </v-btn>
       </v-card-actions>
@@ -90,12 +90,13 @@ export default class SetServerProperty extends Vue {
         { propName: this.propName },
         this.$store.state.app.baseURL
       );
-      if (this.propValue === "") {
-        this.propValue = "- - - Blank value / Not found - - -";
+      await new Promise(resolve => setTimeout(resolve, 300));
+      if (result === "success") {
+        this.dialog = false;
       }
     } catch (error) {
-      this.propValue = "---Error---";
-      console.warn("WebServiceManager.getServerProperty");
+      this.propValue = "- - - Error - - -";
+      console.warn("WebServiceManager.setServerProperty");
       console.log(error);
     }
     this.loading = false;

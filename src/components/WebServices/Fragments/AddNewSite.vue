@@ -211,6 +211,7 @@ export default class AddNewSite extends Vue {
         this.$store.state.app.baseURL,
         this.sessionId
       );
+      await new Promise(resolve => setTimeout(resolve, 150));
       this.dialog = false;
     } catch (error) {
       console.warn("WebServiceManager.addNewSite");
