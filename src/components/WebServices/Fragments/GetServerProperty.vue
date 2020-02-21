@@ -23,46 +23,75 @@
       </v-btn>
     </template>
     <v-card dark :loading="loading">
-      <v-card-title
-        class="elevation-2 indigo darken-4 py-3"
-        @click="getPropoertiesFromFile"
-      >
+      <v-card-title class="elevation-2 indigo darken-4 py-3">
         <span> Get Server Property </span>
         <v-spacer />
+        <v-btn
+          icon
+          outlined
+          @click="getPropertiesFromFile"
+          title="Refresh properties list"
+        >
+          <v-icon small>
+            fas fa-redo
+          </v-icon>
+        </v-btn>
       </v-card-title>
-      <v-card-text class="pt-5 pb-1">
-        <v-row no-gutters>
-          <v-col no-gutters>
-            <v-combobox
-              outlined
-              label="Property name"
-              hide-no-data
-              clearable
-              v-model="propName"
-              :items="propertiesList"
-            />
-          </v-col>
-        </v-row>
-        <v-row no-gutters>
-          <v-col no-gutters v-if="propValue.toString().length < 100">
-            <v-text-field
-              outlined
-              disabled
-              label="Property Value"
-              placeholder="..."
-              v-model="propValue"
-            />
-          </v-col>
-          <v-col no-gutters v-else>
-            <v-textarea
-              outlined
-              disabled
-              label="Property Value"
-              placeholder="..."
-              v-model="propValue"
-            />
-          </v-col>
-        </v-row>
+      <v-card-text class="pt-6 pb-1">
+        <v-form ref="form">
+          <v-row no-gutters>
+            <v-col no-gutters class="pb-2">
+              <v-combobox
+                outlined
+                label="Property name"
+                hide-no-data
+                clearable
+                v-model="propName"
+                :items="propertiesList"
+                @click:clear="clear"
+                :rules="[v => !!v || 'Required']"
+              />
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col no-gutters v-if="propValue.toString().length < 100">
+              <v-text-field
+                outlined
+                disabled
+                label="Property Value"
+                :placeholder="placeholder"
+                v-model="propValue"
+                :class="{
+                  'append-enabled': propValue,
+                  'centered-append': true
+                }"
+              >
+                <template #append>
+                  <v-btn
+                    icon
+                    outlined
+                    :disabled="!propValue"
+                    title="Copy value to clipboard"
+                    @click="copyToClipbd(propValue)"
+                  >
+                    <v-icon small>
+                      far fa-clipboard
+                    </v-icon>
+                  </v-btn>
+                </template>
+              </v-text-field>
+            </v-col>
+            <v-col no-gutters v-else>
+              <v-textarea
+                outlined
+                disabled
+                label="Property Value"
+                :placeholder="placeholder"
+                v-model="propValue"
+              />
+            </v-col>
+          </v-row>
+        </v-form>
       </v-card-text>
       <v-divider />
       <v-card-actions class="mx-4">
@@ -98,11 +127,20 @@ export default class GetServerProperty extends Vue {
 
   propName: String = "";
   propValue: String = "";
-  placeholder: String = "";
+  placeholder: String = "...";
 
   propertiesList: Array<String> = [];
 
+  clear() {
+    this.propValue = "";
+    this.placeholder = "...";
+  }
+
   async getServerProperty() {
+    // @ts-ignore
+    if (!this.$refs.form.validate()) {
+      return;
+    }
     this.loading = true;
     try {
       this.propValue = await WebServiceManager.getServerProperty(
@@ -122,18 +160,27 @@ export default class GetServerProperty extends Vue {
     this.loading = false;
   }
 
-  getPropoertiesFromFile() {
-    var propertiesFile = path.join(
+  //TODO: move this to an util function
+  @Watch("dialog")
+  async getPropertiesFromFile(newVal: Boolean, oldVal: Boolean) {
+    if (newVal) {
+      var propertiesFile = path.join(
+        // @ts-ignore
+        window.process.env.CATALINA_BASE,
+        "/sakai/sakai.properties"
+      );
+      var properties = PropertiesReader(propertiesFile);
+      this.propertiesList = Object.keys(properties.getAllProperties()).sort();
+    } else {
+      await new Promise(resolve => setTimeout(resolve, 300));
       // @ts-ignore
-      window.process.env.CATALINA_BASE,
-      "sakai/sakai.properties"
-    );
-    var properties = PropertiesReader(propertiesFile);
-    this.propertiesList = Object.keys(properties.getAllProperties()).sort();
+      this.$refs.form.reset();
+      this.clear();
+    }
   }
 
-  copyToClipbd(val: string) {
-    clipboard.writeText(val);
+  copyToClipbd(val: String) {
+    clipboard.writeText(val as string);
   }
 
   reset() {

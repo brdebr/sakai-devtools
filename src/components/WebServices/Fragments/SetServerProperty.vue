@@ -26,32 +26,74 @@
       <v-card-title class="elevation-2 indigo darken-4 py-3">
         <span> Set Server Property </span>
         <v-spacer />
+        <v-btn
+          icon
+          outlined
+          @click="getPropertiesFromFile"
+          title="Refresh properties list"
+        >
+          <v-icon small>
+            fas fa-redo
+          </v-icon>
+        </v-btn>
       </v-card-title>
-      <v-card-text class="pt-5 pb-1">
-        <v-row no-gutters>
-          <v-col no-gutters>
-            <v-text-field
-              outlined
-              label="Property name"
-              search-input.sync="propName"
-            />
-          </v-col>
-        </v-row>
-        <v-row no-gutters>
-          <v-col no-gutters>
-            <v-text-field
-              outlined
-              disabled
-              label="Property Value"
-              v-model="propValue"
-            />
-          </v-col>
-        </v-row>
+      <v-card-text class="pt-6 pb-1">
+        <v-form ref="form">
+          <v-row no-gutters>
+            <v-col no-gutters class="pb-2 pr-4">
+              <v-combobox
+                outlined
+                label="Property name"
+                hide-no-data
+                clearable
+                v-model="propName"
+                :items="propertiesList"
+                @click:clear="propValue = ''"
+                :rules="[v => !!v || 'Required']"
+              />
+            </v-col>
+            <v-col no-gutters cols="3">
+              <v-select
+                outlined
+                label="Property type"
+                v-model="propType"
+                :items="['string', 'boolean', 'int', 'array']"
+              />
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col no-gutters>
+              <v-text-field
+                outlined
+                label="Property Value"
+                v-model="propValue"
+                :class="{
+                  'append-enabled': true,
+                  'centered-append': true
+                }"
+                :rules="[v => !!v || 'Required']"
+              >
+                <template #append>
+                  <v-btn
+                    icon
+                    outlined
+                    @click="getFromClipboard"
+                    title="Paste clipboard value"
+                  >
+                    <v-icon small>
+                      far fa-clipboard
+                    </v-icon>
+                  </v-btn>
+                </template>
+              </v-text-field>
+            </v-col>
+          </v-row>
+        </v-form>
       </v-card-text>
       <v-divider />
       <v-card-actions class="mx-4">
         <v-spacer />
-        <v-btn :loading="loading" depressed light @click="getServerProperty">
+        <v-btn :loading="loading" depressed light @click="setServerProperty">
           <span class="subtitle-2">
             Set
           </span>
@@ -67,6 +109,8 @@ import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
 import WebServiceManager from "@/functions/WsManager";
 import { userResponse } from "@/models/WsInterfaces";
+import path from "path";
+var PropertiesReader = require("properties-reader");
 const { clipboard } = require("electron");
 
 @Component({})
@@ -79,15 +123,27 @@ export default class SetServerProperty extends Vue {
   search: String = "";
 
   propName: String = "";
+  propType: "boolean" | "string" | "int" | "array" = "string";
   propValue: String = "";
-  placeholder: String = "";
+  error: String = "";
 
-  async getServerProperty() {
+  propertiesList: Array<String> = [];
+
+  async setServerProperty() {
+    // @ts-ignore
+    if (!this.$refs.form.validate()) {
+      return;
+    }
+
     this.loading = true;
     try {
-      this.propValue = await WebServiceManager.getServerProperty(
+      let result = await WebServiceManager.setServerProperty(
         { sessionid: this.sessionId },
-        { propName: this.propName },
+        {
+          propName: this.propName,
+          propValue: this.propValue,
+          propType: this.propType
+        },
         this.$store.state.app.baseURL
       );
       await new Promise(resolve => setTimeout(resolve, 300));
@@ -95,15 +151,35 @@ export default class SetServerProperty extends Vue {
         this.dialog = false;
       }
     } catch (error) {
-      this.propValue = "- - - Error - - -";
+      this.error = "- - - Error - - -";
       console.warn("WebServiceManager.setServerProperty");
       console.log(error);
     }
     this.loading = false;
   }
 
-  copyToClipbd(val: string) {
-    clipboard.writeText(val);
+  @Watch("dialog")
+  async getPropertiesFromFile(newVal: Boolean, oldVal: Boolean) {
+    if (newVal) {
+      var propertiesFile = path.join(
+        // @ts-ignore
+        window.process.env.CATALINA_BASE,
+        "/sakai/sakai.properties"
+      );
+      var properties = PropertiesReader(propertiesFile);
+      this.propertiesList = Object.keys(properties.getAllProperties()).sort();
+    } else {
+      await new Promise(resolve => setTimeout(resolve, 300));
+      // @ts-ignore
+      this.$refs.form.reset();
+      this.$nextTick(() => {
+        this.propType = "string";
+      });
+    }
+  }
+
+  getFromClipboard() {
+    this.propValue = clipboard.readText();
   }
 
   reset() {
