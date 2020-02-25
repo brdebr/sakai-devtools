@@ -8,6 +8,7 @@
           color="grey lighten-5"
           class="font-weight-bold"
           depressed
+          :loading="loadingResetWorkspaces"
           @click="resetAllUserWorkspace"
         >
           <span class="mr-1">
@@ -40,10 +41,13 @@
     <v-divider class="my-3" />
     <v-row style="justify-content: space-evenly;" no-gutters>
       <v-col no-gutters class="flex-grow-0">
-        <GetServerProperty :session-id="sessionId" />
+        <SetServerProperty :session-id="sessionId" />
       </v-col>
       <v-col no-gutters class="flex-grow-0">
-        <SetServerProperty :session-id="sessionId" />
+        <ManagePropertiesFile />
+      </v-col>
+      <v-col no-gutters class="flex-grow-0">
+        <GetServerProperty :session-id="sessionId" />
       </v-col>
     </v-row>
   </v-container>
@@ -60,6 +64,7 @@ import SitesList from "@/components/WebServices/Fragments/SitesList.vue";
 import AddNewSite from "@/components/WebServices/Fragments/AddNewSite.vue";
 import GetServerProperty from "@/components/WebServices/Fragments/GetServerProperty.vue";
 import SetServerProperty from "@/components/WebServices/Fragments/SetServerProperty.vue";
+import ManagePropertiesFile from "@/components/WebServices/Fragments/ManagePropertiesFile.vue";
 
 @Component({
   components: {
@@ -68,18 +73,24 @@ import SetServerProperty from "@/components/WebServices/Fragments/SetServerPrope
     AddNewSite,
     SitesList,
     GetServerProperty,
-    SetServerProperty
+    SetServerProperty,
+    ManagePropertiesFile
   }
 })
 export default class WebServicesActions extends Vue {
   @Prop()
   sessionId!: String;
 
+  loadingResetWorkspaces = false;
+
   async resetAllUserWorkspace() {
+    this.loadingResetWorkspaces = true;
+    await new Promise(resolve => setTimeout(resolve, 450));
     let resp = await WebServiceManager.resetAllUserWorkspace(
       { sessionid: this.sessionId },
       this.$store.state.app.baseURL
     );
+    this.loadingResetWorkspaces = false;
   }
 }
 </script>

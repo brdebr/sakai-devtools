@@ -93,3 +93,9 @@ html {
     margin-bottom: auto;
   }
 }
+
+.no-margin-prepend {
+  .v-input__prepend-outer {
+    margin: 2px 0 0 0 !important;
+  }
+}
