@@ -70,7 +70,7 @@
             </span>
           </template>
           <template #item.actions="{ item }">
-            <v-btn icon outlined @click="deleteSite(item)">
+            <v-btn icon outlined @click="selectToDelete(item)">
               <v-icon x-small>
                 far fa-trash-alt
               </v-icon>
@@ -79,6 +79,59 @@
         </v-data-table>
       </v-card-text>
     </v-card>
+    <v-dialog v-model="deleteConfirmDialog" max-width="500px">
+      <v-card v-if="selectedToDelete">
+        <v-card-title class="elevation-2 amber py-3">
+          <v-icon class="mr-3" color="orange darken-4">
+            fas fa-exclamation-triangle
+          </v-icon>
+          <span class="font-weight-bold">
+            Confirmation required
+          </span>
+        </v-card-title>
+        <v-card-text class="pt-4 pb-3 pa-5 ma-0 overflow-hidden">
+          <v-row wrap no-gutters>
+            <v-col cols="12" class="mb-3">
+              <span class="subtitle-2">
+                Delete this site?
+              </span>
+            </v-col>
+            <v-col cols="12">
+              <span class="mr-3 d-inline-block" style="min-width: 60px">
+                Site ID:
+              </span>
+              <span>
+                {{ selectedToDelete.siteId }}
+              </span>
+            </v-col>
+            <v-col cols="12">
+              <span class="mr-3 d-inline-block" style="min-width: 60px">
+                Title:
+              </span>
+              <span>
+                {{ selectedToDelete.siteTitle }}
+              </span>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            depressed
+            color="red darken-2"
+            dark
+            class="mr-2"
+            @click="deleteSite"
+          >
+            DELETE
+          </v-btn>
+          <v-btn depressed class="mr-2" @click="closeDeleteDialog">
+            Cancel
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-dialog>
 </template>
 
@@ -88,7 +141,6 @@ import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
 import WebServiceManager from "@/functions/WsManager";
 import { getAllSitesForCurrentUserResponse } from "@/models/WsInterfaces";
-const edialog = require("electron").remote.dialog;
 import { SiteItemList } from "../../../models/WsInterfaces";
 const { clipboard } = require("electron");
 
@@ -142,39 +194,45 @@ export default class SitesList extends Vue {
     clipboard.writeText(val);
   }
 
-  async deleteSite(item: SiteItemList) {
-    const options = {
-      type: "warning",
-      title: "Confirmation required",
-      message: "Delete this site?",
-      detail: `"${item.siteTitle}"`,
-      buttons: ["Cancel", "I'm sure"],
-      defaultId: 0
-    };
+  deleteConfirmDialog = false;
+  selectedToDelete: SiteItemList | null = null;
 
-    let { response } = await edialog.showMessageBox(options);
-    if (response) {
-      this.loading = true;
-      try {
-        let response = await WebServiceManager.removeSite(
-          { sessionid: this.sessionId },
-          item.siteId,
-          this.$store.state.app.baseURL
-        );
-        if (response === "success") {
-          this.list.splice(
-            this.list.findIndex(el => el.siteId === item.siteId),
-            1
-          );
-        } else {
-          throw new Error('Response wasn\'t "success"');
-        }
-      } catch (error) {
-        console.warn("WebServiceManager.removeSite");
-        console.log(error);
-      }
-      this.loading = false;
+  selectToDelete(item: SiteItemList) {
+    this.selectedToDelete = item;
+    this.deleteConfirmDialog = true;
+  }
+
+  async deleteSite() {
+    if (this.selectedToDelete === null) {
+      return;
     }
+    this.loading = true;
+    try {
+      let response = await WebServiceManager.removeSite(
+        { sessionid: this.sessionId },
+        this.selectedToDelete.siteId,
+        this.$store.state.app.baseURL
+      );
+      if (response === "success") {
+        this.list.splice(
+          // @ts-ignore
+          this.list.findIndex(el => el.siteId === this.selectedToDelete.siteId),
+          1
+        );
+      } else {
+        throw new Error('Response wasn\'t "success"');
+      }
+    } catch (error) {
+      console.warn("WebServiceManager.removeSite");
+      console.log(error);
+    }
+    this.loading = false;
+    this.closeDeleteDialog();
+  }
+
+  closeDeleteDialog() {
+    this.deleteConfirmDialog = false;
+    this.selectedToDelete = null;
   }
 
   reset() {
