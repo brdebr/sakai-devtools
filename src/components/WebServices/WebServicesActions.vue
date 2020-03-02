@@ -50,6 +50,12 @@
         <GetServerProperty :session-id="sessionId" />
       </v-col>
     </v-row>
+    <v-divider class="my-3" />
+    <v-row style="justify-content: space-evenly;" no-gutters>
+      <v-col no-gutters class="flex-grow-0">
+        <ManageSitesPagesAndTools />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -65,6 +71,7 @@ import AddNewSite from "@/components/WebServices/Fragments/AddNewSite.vue";
 import GetServerProperty from "@/components/WebServices/Fragments/GetServerProperty.vue";
 import SetServerProperty from "@/components/WebServices/Fragments/SetServerProperty.vue";
 import ManagePropertiesFile from "@/components/WebServices/Fragments/ManagePropertiesFile.vue";
+import ManageSitesPagesAndTools from "@/components/WebServices/Fragments/ManageSitesPagesAndTools.vue";
 
 @Component({
   components: {
@@ -74,7 +81,8 @@ import ManagePropertiesFile from "@/components/WebServices/Fragments/ManagePrope
     SitesList,
     GetServerProperty,
     SetServerProperty,
-    ManagePropertiesFile
+    ManagePropertiesFile,
+    ManageSitesPagesAndTools
   }
 })
 export default class WebServicesActions extends Vue {
