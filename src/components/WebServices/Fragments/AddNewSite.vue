@@ -1,6 +1,8 @@
 <template>
   <v-dialog
     v-model="dialog"
+    :persistent="loading"
+    :loading="loading"
     max-width="680px"
     scrollable
     transition="slide-y-transition"

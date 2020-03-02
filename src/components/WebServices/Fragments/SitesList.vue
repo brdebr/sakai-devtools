@@ -1,6 +1,8 @@
 <template>
   <v-dialog
     v-model="dialog"
+    :persistent="loading"
+    :loading="loading"
     max-width="80%"
     overlay-color="rgb(138, 138, 138)"
     transition="slide-y-transition"
@@ -79,6 +81,7 @@
         </v-data-table>
       </v-card-text>
     </v-card>
+    <!-- TODO: Move this to a separate component and put a loading on it -->
     <v-dialog v-model="deleteConfirmDialog" max-width="500px">
       <v-card v-if="selectedToDelete">
         <v-card-title class="elevation-2 amber py-3">

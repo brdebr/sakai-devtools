@@ -1,6 +1,8 @@
 <template>
   <v-dialog
     v-model="dialog"
+    :persistent="loading"
+    :loading="loading"
     max-width="80%"
     overlay-color="rgb(138, 138, 138)"
     transition="slide-y-transition"
