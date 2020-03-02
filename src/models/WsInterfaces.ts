@@ -61,6 +61,17 @@ export interface SiteItemList {
 
 export type getAllSitesForCurrentUserResponse = Array<SiteItemList>;
 
+export interface pagesAndToolsForSite {
+  pageId: String;
+  pageTitle: String;
+  tools: Array<ToolForSite>;
+}
+export interface ToolForSite {
+  toolId: String;
+  toolName: String;
+  toolTitle: String;
+}
+
 export interface getUserPropertyResponse {
   value: String;
 }

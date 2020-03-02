@@ -1,3 +1,4 @@
+import { pagesAndToolsForSite } from "../models/WsInterfaces";
 import {
   siteParams,
   getAllSitesForCurrentUserResponse,
@@ -237,7 +238,7 @@ export default class WebServiceManager {
     siteid: String,
     params: sessionIdParam,
     baseURL: String
-  ): Promise<Array<getAllSitesForCurrentUserResponse>> {
+  ): Promise<Array<pagesAndToolsForSite>> {
     let endpoint = "/sakai/getPagesAndToolsForSiteForCurrentUser";
     let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
       headers,
@@ -250,7 +251,10 @@ export default class WebServiceManager {
       alwaysChildren: true
     });
 
-    // console.log({ result });
+    console.log({ result });
+    if (result.site.pages === undefined) {
+      return [];
+    }
 
     // Start maping the array of Pages inside the Site
     let list = result.site.pages.page.map((page: any) => {
@@ -259,7 +263,10 @@ export default class WebServiceManager {
       for (const key in page) {
         // If we hit the attributes key, will contain the Page ID
         if (key === "_attributes") {
-          aux["page-id"] = page[key]["id"];
+          aux.pageId = page[key]["id"];
+        }
+        if (key === "page-title") {
+          aux.pageTitle = page[key]._text;
         }
         // If we hit the attributes key, will contain a key called 'tool' with a posible array inside
         if (key === "tools") {
@@ -267,17 +274,17 @@ export default class WebServiceManager {
             // Move the 'tool' array one level up to match our desired structure
             aux["tools"] = page[key]["tool"].map((tool: any) => {
               return {
-                "tool-name": tool["tool-id"]._text,
-                "tool-title": tool["tool-title"]._text,
-                "tool-id": tool["_attributes"].id
+                toolName: tool["tool-id"]._text,
+                toolTitle: tool["tool-title"]._text,
+                toolId: tool["_attributes"].id
               };
             });
           } else {
             aux["tools"] = [
               {
-                "tool-name": page[key]["tool"]["tool-id"]._text,
-                "tool-title": page[key]["tool"]["tool-title"]._text,
-                "tool-id": page[key]["tool"]["_attributes"].id
+                toolName: page[key]["tool"]["tool-id"]._text,
+                toolTitle: page[key]["tool"]["tool-title"]._text,
+                toolId: page[key]["tool"]["_attributes"].id
               }
             ];
           }
@@ -286,7 +293,7 @@ export default class WebServiceManager {
       return aux;
     });
 
-    // console.log({ list });
+    console.log({ list });
 
     return list;
   }

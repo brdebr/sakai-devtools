@@ -53,7 +53,7 @@
     <v-divider class="my-3" />
     <v-row style="justify-content: space-evenly;" no-gutters>
       <v-col no-gutters class="flex-grow-0">
-        <ManageSitesPagesAndTools />
+        <ManageSitesPagesAndTools :session-id="sessionId" />
       </v-col>
     </v-row>
   </v-container>
