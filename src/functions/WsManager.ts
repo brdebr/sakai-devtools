@@ -232,4 +232,62 @@ export default class WebServiceManager {
 
     return data;
   }
+
+  static async getPagesAndToolsForSiteForCurrentUser(
+    siteid: String,
+    params: sessionIdParam,
+    baseURL: String
+  ): Promise<Array<getAllSitesForCurrentUserResponse>> {
+    let endpoint = "/sakai/getPagesAndToolsForSiteForCurrentUser";
+    let { data } = await axios.get(baseURL + restEndpoint + endpoint, {
+      headers,
+      params: { ...params, siteid }
+    });
+
+    var result = convert.xml2js(data, {
+      ignoreComment: true,
+      compact: true,
+      alwaysChildren: true
+    });
+
+    console.log(result);
+
+    let list = result.site.pages.page.map((el: any) => {
+      let aux: { [index: string]: any } = {};
+      for (const key in el) {
+        if (el[key]._text) {
+          aux[key] = el[key]._text;
+        } else {
+          aux[key] = null;
+        }
+        if (key === "_attributes") {
+          aux["pageid"] = el[key]["id"];
+        }
+        if (key === "tools") {
+          aux["tools"] = el[key]["tool"];
+
+          let auxTools: { [index: string]: any } = {};
+          for (const keyTools in aux["tools"]) {
+            if (aux["tools"][keyTools]._text) {
+              auxTools[keyTools] = aux["tools"][keyTools]._text;
+            } else if (keyTools === "_attributes") {
+              auxTools["toolid"] = aux["tools"][keyTools]["id"];
+            } else {
+              auxTools[keyTools] = aux["tools"][keyTools];
+            }
+            // else{
+            //   auxTools[keyTools] = aux['tools'][keyTools]._text ? aux['tools'][keyTools]._text : null;
+            // }
+          }
+
+          aux["tools"] = auxTools;
+        }
+      }
+      return aux;
+    });
+
+    console.log(list);
+
+    return [];
+  }
 }
