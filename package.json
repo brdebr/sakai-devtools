@@ -38,7 +38,7 @@
         "@vue/cli-service": "^3.10.0",
         "electron": "^6.0.0",
         "electron-icon-builder": "^1.0.1",
-        "node-sass": "^4.9.0",
+        "node-sass": "^7.0.0",
         "sass": "^1.17.4",
         "sass-loader": "^7.1.0",
         "typescript": "^3.4.3",
